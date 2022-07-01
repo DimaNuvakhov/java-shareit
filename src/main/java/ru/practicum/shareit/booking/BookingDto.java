@@ -7,14 +7,15 @@ import ru.practicum.shareit.status.Status;
 import ru.practicum.shareit.user.User;
 
 import java.time.LocalDate;
-
 @Getter
 @Setter
-public class Booking {
-private Integer id;
-private LocalDate start;
-private LocalDate end;
-private Item item;
-private User booker;
-private Status status;
+public class BookingDto {
+    private Integer id;
+    private LocalDate start;
+    private LocalDate end;
+//    private Item item;
+//    private User booker;
+//    private Status status;
 }
+
+
