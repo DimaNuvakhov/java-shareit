@@ -2,13 +2,21 @@ package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
 public class InMemoryItemRepository implements ItemRepository {
 
+    HashMap<Integer, Item> items = new HashMap<>();
+
     @Override
-    public ItemDto add(Integer userId, Item item) {
+    public ItemDto add(Item item) {
+        if (!items.containsKey(item.getOwner())) {
+            List<Item> ownerItems = new ArrayList<>();
+            ownerItems.add(item);
+        }
         return null;
     }
 

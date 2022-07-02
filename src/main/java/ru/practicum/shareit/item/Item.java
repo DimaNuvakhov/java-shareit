@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.shareit.requests.ItemRequest;
 import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.UserDto;
 
 @Getter
 @Setter
@@ -12,6 +13,6 @@ private Integer id;
 private String name;
 private String description;
 private boolean available;
-private User owner;
-private ItemRequest request;
+private Integer owner;
+private Integer request;
 }

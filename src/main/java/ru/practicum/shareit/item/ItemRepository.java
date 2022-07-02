@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ItemRepository {
 
-    ItemDto add(Integer userId, Item item);
+    ItemDto add(Item item);
 
     ItemDto update(Integer userId, Item item);
 
