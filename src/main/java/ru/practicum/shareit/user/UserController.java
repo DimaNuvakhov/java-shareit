@@ -1,43 +1,42 @@
 package ru.practicum.shareit.user;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
-@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping
-    public User add(@RequestBody User user) {
-//        return userService.add(user);
-        return null;
+    public UserDto add(@RequestBody User user) {
+        return userService.add(user);
     }
 
     @PutMapping
-    public User update(@RequestBody User user) {
-//        return userService.update(user);
-        return null;
+    public UserDto update(@RequestBody User user) {
+        return userService.update(user);
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable Integer id) {
-//        return userService.getById(userId);
-        return null;
+    public UserDto get(@PathVariable Integer id) {
+        return userService.getById(id);
     }
 
     @GetMapping
-    public List<User> getAll() {
-//        return userService.getAll();
-        return null;
+    public List<UserDto> getAll() {
+        return userService.getAll();
     }
 
     @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable Integer id) {
-//        return userService.deleteById();
-        return null;
+        return userService.deleteById(id);
     }
 }

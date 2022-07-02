@@ -1,4 +1,4 @@
 package ru.practicum.shareit.status;
 
-public class InMemoryStatusStorage {
+public interface StatusRepository {
 }

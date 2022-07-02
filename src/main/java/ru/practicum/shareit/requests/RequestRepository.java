@@ -1,4 +1,4 @@
 package ru.practicum.shareit.requests;
 
-public interface RequestService {
+public interface RequestRepository {
 }

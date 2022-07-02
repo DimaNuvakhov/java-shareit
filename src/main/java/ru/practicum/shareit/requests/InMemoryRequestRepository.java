@@ -1,5 +1,5 @@
 package ru.practicum.shareit.requests;
 
-public class InMemoryRequestStorage {
+public class InMemoryRequestRepository {
 
 }

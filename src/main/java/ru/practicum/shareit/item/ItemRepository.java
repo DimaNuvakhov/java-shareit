@@ -1,13 +1,8 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.stereotype.Service;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserDto;
-
 import java.util.List;
 
-@Service
-public interface ItemService {
+public interface ItemRepository {
 
     ItemDto add(Integer userId, Item item);
 
@@ -18,5 +13,4 @@ public interface ItemService {
     List<ItemDto> getAll(Integer userId);
 
     Boolean deleteById(Integer userId, Integer itemId);
-
 }
