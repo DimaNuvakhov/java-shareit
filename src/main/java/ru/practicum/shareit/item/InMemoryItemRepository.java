@@ -11,13 +11,17 @@ public class InMemoryItemRepository implements ItemRepository {
 
     HashMap<Integer, Item> items = new HashMap<>();
 
+    private Integer idMax = 0;
+
+    private Integer getIdMax() {
+        idMax = idMax + 1;
+        return idMax;
+    }
     @Override
     public ItemDto add(Item item) {
-        if (!items.containsKey(item.getOwner())) {
-            List<Item> ownerItems = new ArrayList<>();
-            ownerItems.add(item);
-        }
-        return null;
+        item.setId(getIdMax());
+        items.put(item.getId(), item);
+        return ItemMapper.toItemDto(items.get(item.getId()));
     }
 
     @Override

@@ -18,5 +18,4 @@ public interface ItemService {
     List<ItemDto> getAll(Integer userId);
 
     Boolean deleteById(Integer userId, Integer itemId);
-
 }

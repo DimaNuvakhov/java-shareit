@@ -40,6 +40,18 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
+    public UserDto patch(Integer userId, User user) {
+        User foundedUser = users.get(userId);
+        if (user.getName() != null) {
+            foundedUser.setName(user.getName());
+        }
+        if (user.getEmail() != null) {
+            foundedUser.setEmail(user.getEmail());
+        }
+        return UserMapper.toUserDto(foundedUser);
+    }
+
+    @Override
     public Boolean deleteById(Integer id) {
         users.remove(id);
         return true;

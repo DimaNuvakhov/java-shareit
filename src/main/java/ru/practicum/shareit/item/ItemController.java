@@ -16,10 +16,9 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item add(@RequestHeader("X-Sharer-User-Id") Integer userId,
+    public ItemDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
                     @RequestBody Item item) {
-//        return itemService.add(userId, item);
-        return null;
+        return itemService.add(userId, item);
     }
 
     @PutMapping

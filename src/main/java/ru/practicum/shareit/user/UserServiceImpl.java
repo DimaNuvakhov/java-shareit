@@ -60,4 +60,14 @@ public class UserServiceImpl implements UserService {
     public Boolean deleteById(Integer id) {
         return userStorage.deleteById(id);
     }
+
+    @Override
+    public UserDto patch(Integer userId, User user) {
+        for (UserDto userDto : userStorage.getAll()) {
+            if (user.getEmail() != null && user.getEmail().equals(userDto.getEmail())) {
+                throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
+            }
+        }
+        return userStorage.patch(userId, user);
+    }
 }

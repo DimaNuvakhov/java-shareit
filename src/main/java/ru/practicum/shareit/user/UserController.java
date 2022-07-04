@@ -25,6 +25,12 @@ public class UserController {
         return userService.update(user);
     }
 
+    @PatchMapping("/{id}")
+    public UserDto patch(@PathVariable Integer id,
+                         @RequestBody User user) {
+        return userService.patch(id, user);
+    }
+
     @GetMapping("/{id}")
     public UserDto get(@PathVariable Integer id) {
         return userService.getById(id);

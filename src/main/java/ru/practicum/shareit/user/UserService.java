@@ -13,4 +13,6 @@ public interface UserService {
     List<UserDto> getAll();
 
     Boolean deleteById(Integer id);
+
+    UserDto patch(Integer userId, User user);
 }

@@ -12,7 +12,7 @@ public class Item {
 private Integer id;
 private String name;
 private String description;
-private boolean available;
+private Boolean available;
 private Integer owner;
 private Integer request;
 }

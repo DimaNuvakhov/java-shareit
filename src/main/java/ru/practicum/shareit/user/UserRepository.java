@@ -12,5 +12,7 @@ public interface UserRepository {
 
     List<UserDto> getAll();
 
+    UserDto patch(Integer userId, User user);
+
     Boolean deleteById(Integer id);
 }

@@ -11,6 +11,14 @@ public class ItemDto {
     private String name;
     private String description;
     private boolean available;
-//    private User owner;
-//    private ItemRequest request;
+//    private Integer owner;
+//    private Integer request;
+
+
+    public ItemDto(Integer id, String name, String description, boolean available) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
 }
