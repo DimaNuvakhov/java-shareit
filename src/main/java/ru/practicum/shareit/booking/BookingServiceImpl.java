@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -17,26 +18,26 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public BookingDto add(Booking booking) {
-        return null;
+        return bookingRepository.add(booking);
     }
 
     @Override
     public BookingDto update(Booking booking) {
-        return null;
+        return bookingRepository.update(booking);
     }
 
     @Override
     public BookingDto getById(Integer id) {
-        return null;
+        return bookingRepository.getById(id);
     }
 
     @Override
-    public List<BookingDto> getAll() {
-        return null;
+    public Collection<BookingDto> getAll() {
+        return bookingRepository.getAll().values();
     }
 
     @Override
     public Boolean deleteById(Integer id) {
-        return null;
+        return bookingRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BookingRepository {
@@ -10,7 +11,7 @@ public interface BookingRepository {
 
     BookingDto getById(Integer id);
 
-    List<BookingDto> getAll();
+    HashMap<Integer, BookingDto> getAll();
 
     Boolean deleteById(Integer id);
 

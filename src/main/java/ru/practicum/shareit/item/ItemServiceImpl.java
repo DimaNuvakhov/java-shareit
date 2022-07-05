@@ -6,6 +6,7 @@ import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.UserDto;
 import ru.practicum.shareit.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,6 +77,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> search(String query) {
+        if (query.isBlank()) {
+            return new ArrayList<>();
+        }
         String lowerCaseQuery = query.toLowerCase();
         return itemRepository.search(lowerCaseQuery);
     }

@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDto> getAll() {
+    public Collection<BookingDto> getAll() {
         return bookingService.getAll();
     }
 

@@ -13,9 +13,18 @@ public class BookingDto {
     private Integer id;
     private LocalDate start;
     private LocalDate end;
-//    private Item item;
-//    private User booker;
-//    private Status status;
+    private Integer item;
+    private Integer booker;
+    private Integer status;
+
+    public BookingDto(Integer id, LocalDate start, LocalDate end, Integer item, Integer booker, Integer status) {
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.item = item;
+        this.booker = booker;
+        this.status = status;
+    }
 }
 
 

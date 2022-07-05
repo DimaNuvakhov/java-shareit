@@ -8,4 +8,9 @@ import lombok.Setter;
 public class StatusDto {
     Integer id;
     String value;
+
+    public StatusDto(Integer id, String value) {
+        this.id = id;
+        this.value = value;
+    }
 }

@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserDto;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface BookingService {
@@ -13,7 +14,7 @@ public interface BookingService {
 
     BookingDto getById(Integer id);
 
-    List<BookingDto> getAll();
+    Collection<BookingDto> getAll();
 
     Boolean deleteById(Integer id);
 

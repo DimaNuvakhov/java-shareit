@@ -64,7 +64,8 @@ public class InMemoryItemRepository implements ItemRepository {
     public List<ItemDto> search(String query) {
         List<ItemDto> foundedItems = new ArrayList<>();
         for (Item item : items.values()) {
-            if (item.getName().toLowerCase().contains(query) || item.getDescription().toLowerCase().contains(query)) {
+            if (item.getAvailable() && (item.getName().toLowerCase().contains(query) ||
+                    item.getDescription().toLowerCase().contains(query))) {
                 foundedItems.add(ItemMapper.toItemDto(item));
             }
         }
