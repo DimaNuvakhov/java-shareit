@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> getAll() {
+    public Collection<UserDto> getAll() {
         return userService.getAll();
     }
 

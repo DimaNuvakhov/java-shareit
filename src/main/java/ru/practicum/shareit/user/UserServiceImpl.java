@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.EmailAlreadyExistsException;
 import ru.practicum.shareit.error.InvalidEmailException;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
         if (user.getEmail() == null) {
             throw new InvalidEmailException("Электронная почта не указана");
         }
-        for (UserDto userDto : userStorage.getAll()) {
+        for (UserDto userDto : userStorage.getAll().values()) {
             if (user.getEmail().equals(userDto.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(User user) {
-        for (UserDto userDto : userStorage.getAll()) {
+        for (UserDto userDto : userStorage.getAll().values()) {
             if (user.getEmail().equals(userDto.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
@@ -52,8 +53,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAll() {
-        return userStorage.getAll();
+    public Collection<UserDto> getAll() {
+        return userStorage.getAll().values();
     }
 
     @Override
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto patch(Integer userId, User user) {
-        for (UserDto userDto : userStorage.getAll()) {
+        for (UserDto userDto : userStorage.getAll().values()) {
             if (user.getEmail() != null && user.getEmail().equals(userDto.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }

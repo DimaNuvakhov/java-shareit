@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -21,30 +22,26 @@ public class ItemController {
         return itemService.add(userId, item);
     }
 
-    @PutMapping
-    public Item update(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                       @RequestBody Item item) {
-//        return itemService.update(userId, item);
-        return null;
+    @PatchMapping("/{id}")
+    public ItemDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                         @PathVariable Integer id,
+                         @RequestBody Item item) {
+        return itemService.patch(userId, id, item);
     }
 
     @GetMapping("{itemId}")
-    public ItemDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                       @PathVariable Integer itemId) {
-        return itemService.getById(userId, itemId);
+    public ItemDto get(@PathVariable Integer itemId) {
+        return itemService.getById(itemId);
 
     }
 
     @GetMapping
-    public List<Item> getAll(@RequestHeader("X-Sharer-User-Id") Integer userId) {
-//        return itemService.getAll();
-        return null;
+    public Collection<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") Integer userId) {
+        return itemService.getAll(userId);
     }
 
     @GetMapping("/search")
-    public List<Item> search(@RequestParam(required = true) String query,
-                             @RequestParam(required = false) List<String> by) {
-//        return itemService.search(query, by);
-        return null;
+    public List<ItemDto> search(@RequestParam(required = true) String text) {
+        return itemService.search(text);
     }
 }

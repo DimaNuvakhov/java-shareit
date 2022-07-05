@@ -1,19 +1,12 @@
 package ru.practicum.shareit.booking;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
-public class BookingServiceImpl implements BookingService{
+@Component
 
-    private final BookingRepository bookingRepository;
-
-    @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
-    }
+public class InMemoryBookingRepository implements BookingRepository {
 
     @Override
     public BookingDto add(Booking booking) {

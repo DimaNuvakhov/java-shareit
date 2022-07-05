@@ -14,7 +14,7 @@ public class Booking {
 private Integer id;
 private LocalDate start;
 private LocalDate end;
-private Item item;
-private User booker;
-private Status status;
+private Integer item;
+private Integer booker;
+private Integer status;
 }

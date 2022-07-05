@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface UserService {
@@ -10,7 +11,7 @@ public interface UserService {
 
     UserDto getById(Integer id);
 
-    List<UserDto> getAll();
+    Collection<UserDto> getAll();
 
     Boolean deleteById(Integer id);
 

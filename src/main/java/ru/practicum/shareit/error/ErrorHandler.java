@@ -64,4 +64,12 @@ public class ErrorHandler {
         );
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleInvalidOwnerException(final InvalidUserException e) {
+        return new ErrorResponse(
+          e.getMessage()
+        );
+    }
+
 }

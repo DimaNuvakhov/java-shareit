@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public List<UserDto> getAll() {
-        return UserMapper.toUserDtoList(users);
+    public HashMap<Integer, UserDto> getAll() {
+        return UserMapper.toUserDtoMap(users);
     }
 
     @Override

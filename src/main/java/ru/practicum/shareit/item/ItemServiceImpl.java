@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
-import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserDto;
 import ru.practicum.shareit.user.UserRepository;
 
@@ -38,33 +37,46 @@ public class ItemServiceImpl implements ItemService {
         if (item.getDescription() == null || item.getDescription().isBlank()) {
             throw new InvalidDescriptionException("Не задано описание вещи");
         }
-        for (UserDto user : userRepository.getAll()) {
-            if (!user.getId().equals(ownerId)) {
-               throw new IdNotFoundException("Id пользователя не найден в базе");
-            }
+        if (!userRepository.getAll().containsKey(ownerId)) {
+            throw new IdNotFoundException("Id пользователя не найден в базе");
         }
         item.setOwner(ownerId);
         return itemRepository.add(item);
     }
 
     @Override
-    public ItemDto update(Integer userId, Item item) {
-
-        return null;
-    }
-
-    @Override
-    public ItemDto getById(Integer userId, Integer itemId) {
-        return null;
+    public ItemDto getById(Integer itemId) {
+        return itemRepository.getById(itemId);
     }
 
     @Override
     public List<ItemDto> getAll(Integer userId) {
-        return null;
+        if (!userRepository.getAll().containsKey(userId)) {
+            throw new InvalidUserException("Пользователь не добавлен в систему");
+        }
+        return itemRepository.getAll(userId);
     }
 
     @Override
     public Boolean deleteById(Integer userId, Integer itemId) {
         return null;
+    }
+
+    @Override
+    public ItemDto patch(Integer userId, Integer id, Item item) {
+        ItemDto foundedItem = itemRepository.getById(id);
+        if (userId == null) {
+            throw new InvalidIdException("Ошибка id пользователя");
+        }
+        if (!foundedItem.getOwner().equals(userId)) {
+            throw new InvalidUserException("Редактировать вещь может только ее владелец");
+        }
+        return itemRepository.patch(id, item);
+    }
+
+    @Override
+    public List<ItemDto> search(String query) {
+        String lowerCaseQuery = query.toLowerCase();
+        return itemRepository.search(lowerCaseQuery);
     }
 }
