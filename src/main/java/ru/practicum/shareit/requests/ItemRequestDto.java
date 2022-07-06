@@ -10,6 +10,13 @@ import java.time.LocalDateTime;
 public class ItemRequestDto {
     private Integer id;
     private String description;
-//    private User requestor;
-//    private LocalDateTime created;
+    private Integer requestor;
+    private LocalDateTime created;
+
+    public ItemRequestDto(Integer id, String description, Integer requestor, LocalDateTime created) {
+        this.id = id;
+        this.description = description;
+        this.requestor = requestor;
+        this.created = created;
+    }
 }

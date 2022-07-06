@@ -25,21 +25,23 @@ public class InMemoryStatusRepository implements StatusRepository {
 
     @Override
     public StatusDto update(Status status) {
-        return null;
+        statuses.put(status.getId(), status);
+        return StatusMapper.toStatusDto(status);
     }
 
     @Override
     public StatusDto getById(Integer id) {
-        return null;
+        return StatusMapper.toStatusDto(statuses.get(id));
     }
 
     @Override
     public HashMap<Integer, StatusDto> getAll() {
-        return null;
+        return StatusMapper.toStatusDtoMap(statuses);
     }
 
     @Override
     public Boolean deleteById(Integer id) {
-        return null;
+        statuses.remove(id);
+        return true;
     }
 }
