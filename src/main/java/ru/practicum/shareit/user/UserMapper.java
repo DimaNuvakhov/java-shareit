@@ -10,7 +10,7 @@ public class UserMapper {
 
     public static HashMap<Integer, UserDto> toUserDtoMap(HashMap<Integer, User> users) {
         HashMap<Integer, UserDto> userDtos = new HashMap<>();
-        for(User user : users.values()) {
+        for (User user : users.values()) {
             userDtos.put(user.getId(), toUserDto(user));
         }
         return userDtos;

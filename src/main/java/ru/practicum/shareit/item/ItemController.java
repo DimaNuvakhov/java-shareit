@@ -11,14 +11,14 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
 
-
+    @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @PostMapping
     public ItemDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                    @RequestBody Item item) {
+                       @RequestBody Item item) {
         return itemService.add(userId, item);
     }
 

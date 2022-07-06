@@ -1,10 +1,6 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserDto;
-
 import java.util.Collection;
-import java.util.List;
 
 public interface BookingService {
 

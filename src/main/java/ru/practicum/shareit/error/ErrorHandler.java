@@ -68,7 +68,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleInvalidOwnerException(final InvalidUserException e) {
         return new ErrorResponse(
-          e.getMessage()
+                e.getMessage()
         );
     }
 

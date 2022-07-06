@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public class StatusServiceImpl implements StatusService{
+public class StatusServiceImpl implements StatusService {
 
     private final StatusRepository statusRepository;
 

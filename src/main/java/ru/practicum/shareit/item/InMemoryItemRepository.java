@@ -17,6 +17,7 @@ public class InMemoryItemRepository implements ItemRepository {
         idMax = idMax + 1;
         return idMax;
     }
+
     @Override
     public ItemDto add(Item item) {
         item.setId(getIdMax());
@@ -26,7 +27,7 @@ public class InMemoryItemRepository implements ItemRepository {
 
     @Override
     public ItemDto getById(Integer itemId) {
-       return ItemMapper.toItemDto(items.get(itemId));
+        return ItemMapper.toItemDto(items.get(itemId));
     }
 
     @Override

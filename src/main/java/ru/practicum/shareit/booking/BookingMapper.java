@@ -6,7 +6,7 @@ public class BookingMapper {
 
     public static BookingDto toBookingDto(Booking booking) {
         return new BookingDto(booking.getId(), booking.getStart(), booking.getEnd(),
-                booking.getItem() ,booking.getStatus(), booking.getBooker());
+                booking.getItem(), booking.getStatus(), booking.getBooker());
     }
 
     public static HashMap<Integer, BookingDto> toBookingDtoMap(HashMap<Integer, Booking> bookings) {

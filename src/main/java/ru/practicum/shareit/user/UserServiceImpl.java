@@ -6,7 +6,6 @@ import ru.practicum.shareit.error.EmailAlreadyExistsException;
 import ru.practicum.shareit.error.InvalidEmailException;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {

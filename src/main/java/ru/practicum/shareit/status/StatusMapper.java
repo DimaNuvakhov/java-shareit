@@ -7,7 +7,7 @@ public class StatusMapper {
         return new StatusDto(status.getId(), status.getValue());
     }
 
-    public static HashMap<Integer, StatusDto> toStatusDtoMap (HashMap<Integer, Status> statuses) {
+    public static HashMap<Integer, StatusDto> toStatusDtoMap(HashMap<Integer, Status> statuses) {
         HashMap<Integer, StatusDto> statusDtoMap = new HashMap<>();
         for (Status status : statuses.values()) {
             statusDtoMap.put(status.getId(), toStatusDto(status));

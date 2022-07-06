@@ -1,8 +1,5 @@
 package ru.practicum.shareit.status;
 
-import ru.practicum.shareit.booking.Booking;
-import ru.practicum.shareit.booking.BookingDto;
-
 import java.util.Collection;
 
 public interface StatusService {

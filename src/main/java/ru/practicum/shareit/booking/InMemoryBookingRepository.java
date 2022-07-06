@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Component
 public class InMemoryBookingRepository implements BookingRepository {

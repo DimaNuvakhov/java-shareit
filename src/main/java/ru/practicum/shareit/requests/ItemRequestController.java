@@ -2,8 +2,6 @@ package ru.practicum.shareit.requests;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.status.Status;
-import ru.practicum.shareit.status.StatusDto;
 
 import java.util.Collection;
 
@@ -12,6 +10,7 @@ import java.util.Collection;
 public class ItemRequestController {
 
     private final RequestService requestService;
+
     @Autowired
     public ItemRequestController(RequestService requestService) {
         this.requestService = requestService;
@@ -37,7 +36,7 @@ public class ItemRequestController {
         return requestService.getAll();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable Integer id) {
         return requestService.deleteById(id);
     }

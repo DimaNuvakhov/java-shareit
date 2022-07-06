@@ -1,9 +1,9 @@
 package ru.practicum.shareit.requests;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.shareit.status.StatusMapper;
 
 import java.util.HashMap;
+
 @Component
 public class InMemoryRequestRepository implements RequestRepository {
 

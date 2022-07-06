@@ -1,8 +1,5 @@
 package ru.practicum.shareit.requests;
 
-import ru.practicum.shareit.status.Status;
-import ru.practicum.shareit.status.StatusDto;
-
 import java.util.HashMap;
 
 public interface RequestRepository {
