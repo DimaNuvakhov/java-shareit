@@ -14,5 +14,4 @@ public interface BookingRepository {
     HashMap<Integer, BookingDto> getAll();
 
     Boolean deleteById(Integer id);
-
 }
