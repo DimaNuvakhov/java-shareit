@@ -13,9 +13,9 @@ public class BookingDto {
     private LocalDate end;
     private Integer item;
     private Integer booker;
-    private Integer status;
+    private String status;
 
-    public BookingDto(Integer id, LocalDate start, LocalDate end, Integer item, Integer booker, Integer status) {
+    public BookingDto(Integer id, LocalDate start, LocalDate end, Integer item, Integer booker, String status) {
         this.id = id;
         this.start = start;
         this.end = end;

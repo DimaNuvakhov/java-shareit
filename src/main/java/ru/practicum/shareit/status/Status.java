@@ -1,11 +1,13 @@
 package ru.practicum.shareit.status;
 
-import lombok.Getter;
-import lombok.Setter;
+public enum Status {
 
-@Getter
-@Setter
-public class Status {
-    Integer id;
-    String value;
+    WAITING,
+
+    APPROVED,
+
+    REJECTED,
+
+    CANCELED
+
 }

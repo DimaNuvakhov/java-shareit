@@ -4,9 +4,9 @@ import java.util.Collection;
 
 public interface BookingService {
 
-    BookingDto add(Booking booking);
+    BookingDto add(BookingDto booking);
 
-    BookingDto update(Booking booking);
+    BookingDto update(BookingDto booking);
 
     BookingDto getById(Integer id);
 

@@ -16,13 +16,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto add(Booking booking) {
-        return bookingRepository.add(booking);
+    public BookingDto add(BookingDto booking) {
+        return bookingRepository.add(BookingMapper.toBooking(booking));
     }
 
     @Override
-    public BookingDto update(Booking booking) {
-        return bookingRepository.update(booking);
+    public BookingDto update(BookingDto booking) {
+        return bookingRepository.update(BookingMapper.toBooking(booking));
     }
 
     @Override

@@ -17,12 +17,12 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingDto add(@RequestBody Booking booking) {
+    public BookingDto add(@RequestBody BookingDto booking) {
         return bookingService.add(booking);
     }
 
     @PutMapping
-    public BookingDto update(@RequestBody Booking booking) {
+    public BookingDto update(@RequestBody BookingDto booking) {
         return bookingService.update(booking);
     }
 
