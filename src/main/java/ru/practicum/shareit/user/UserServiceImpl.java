@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto add(User user) {
+    public UserDto add(UserDto user) {
         if (user.getEmail() == null) {
             throw new InvalidEmailException("Электронная почта не указана");
         }
@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService {
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
-        return userStorage.add(user);
+        return userStorage.add(UserMapper.toUser(user));
     }
 
     @Override
-    public UserDto update(User user) {
+    public UserDto update(UserDto user) {
         for (UserDto userDto : userStorage.getAll().values()) {
             if (user.getEmail().equals(userDto.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
-        return userStorage.update(user);
+        return userStorage.update(UserMapper.toUser(user));
     }
 
     @Override
@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto patch(Integer userId, User user) {
+    public UserDto patch(Integer userId, UserDto user) {
         for (UserDto userDto : userStorage.getAll().values()) {
             if (user.getEmail() != null && user.getEmail().equals(userDto.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
-        return userStorage.patch(userId, user);
+        return userStorage.patch(userId, UserMapper.toUser(user));
     }
 }
