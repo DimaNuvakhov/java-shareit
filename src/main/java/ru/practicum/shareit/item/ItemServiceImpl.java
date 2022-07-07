@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
+import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto add(Integer ownerId, Item item) {
+    public ItemDto add(Integer ownerId, ItemDto item) {
         if (ownerId == null) {
             throw new InvalidIdException("Ошибка id пользователя");
         }
@@ -40,8 +41,9 @@ public class ItemServiceImpl implements ItemService {
         if (!userRepository.getAll().containsKey(ownerId)) {
             throw new IdNotFoundException("Id пользователя не найден в базе");
         }
-        item.setOwner(ownerId);
-        return itemRepository.add(item);
+        Item createdItem = ItemMapper.toItem(item);
+        createdItem.setOwner(UserMapper.toUser(userRepository.getById(ownerId)));
+        return itemRepository.add(createdItem);
     }
 
     @Override
@@ -63,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto patch(Integer userId, Integer id, Item item) {
+    public ItemDto patch(Integer userId, Integer id, ItemDto item) {
         ItemDto foundedItem = itemRepository.getById(id);
         if (userId == null) {
             throw new InvalidIdException("Ошибка id пользователя");
@@ -71,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
         if (!foundedItem.getOwner().equals(userId)) {
             throw new InvalidUserException("Редактировать вещь может только ее владелец");
         }
-        return itemRepository.patch(id, item);
+        return itemRepository.patch(id, ItemMapper.toItem(item));
     }
 
     @Override

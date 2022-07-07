@@ -7,7 +7,7 @@ import java.util.List;
 @Service
 public interface ItemService {
 
-    ItemDto add(Integer userId, Item item);
+    ItemDto add(Integer userId, ItemDto item);
 
     ItemDto getById(Integer itemId);
 
@@ -15,7 +15,7 @@ public interface ItemService {
 
     Boolean deleteById(Integer userId, Integer itemId);
 
-    ItemDto patch(Integer userId, Integer id, Item item);
+    ItemDto patch(Integer userId, Integer id, ItemDto item);
 
     List<ItemDto> search(String query);
 }

@@ -18,14 +18,14 @@ public class ItemController {
 
     @PostMapping
     public ItemDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                       @RequestBody Item item) {
+                       @RequestBody ItemDto item) {
         return itemService.add(userId, item);
     }
 
     @PatchMapping("/{id}")
     public ItemDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
                          @PathVariable Integer id,
-                         @RequestBody Item item) {
+                         @RequestBody ItemDto item) {
         return itemService.patch(userId, id, item);
     }
 
