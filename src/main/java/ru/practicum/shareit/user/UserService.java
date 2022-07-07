@@ -4,9 +4,9 @@ import java.util.Collection;
 
 public interface UserService {
 
-    UserDto add(UserDto userDto);
+    UserDto add(UserDto user);
 
-    UserDto update(UserDto userDto);
+    UserDto update(UserDto user);
 
     UserDto getById(Integer id);
 
@@ -14,5 +14,5 @@ public interface UserService {
 
     Boolean deleteById(Integer id);
 
-    UserDto patch(Integer userId, UserDto userDto);
+    UserDto patch(Integer userId, UserDto user);
 }

@@ -16,13 +16,13 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public ItemRequestDto add(ItemRequest itemRequest) {
-        return requestRepository.add(itemRequest);
+    public ItemRequestDto add(ItemRequestDto itemRequest) {
+        return requestRepository.add(RequestMapper.toItemRequest(itemRequest));
     }
 
     @Override
-    public ItemRequestDto update(ItemRequest itemRequest) {
-        return requestRepository.update(itemRequest);
+    public ItemRequestDto update(ItemRequestDto itemRequest) {
+        return requestRepository.update(RequestMapper.toItemRequest(itemRequest));
     }
 
     @Override

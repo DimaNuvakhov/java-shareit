@@ -16,19 +16,19 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto add(@RequestBody UserDto userDto) {
-        return userService.add(userDto);
+    public UserDto add(@RequestBody UserDto user) {
+        return userService.add(user);
     }
 
     @PutMapping
-    public UserDto update(@RequestBody UserDto userDto) {
-        return userService.update(userDto);
+    public UserDto update(@RequestBody UserDto user) {
+        return userService.update(user);
     }
 
     @PatchMapping("/{id}")
     public UserDto patch(@PathVariable Integer id,
-                         @RequestBody UserDto userDto) {
-        return userService.patch(id, userDto);
+                         @RequestBody UserDto user) {
+        return userService.patch(id, user);
     }
 
     @GetMapping("/{id}")

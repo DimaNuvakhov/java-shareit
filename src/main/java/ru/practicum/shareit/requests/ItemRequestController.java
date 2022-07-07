@@ -17,12 +17,12 @@ public class ItemRequestController {
     }
 
     @PostMapping
-    public ItemRequestDto add(@RequestBody ItemRequest itemRequest) {
+    public ItemRequestDto add(@RequestBody ItemRequestDto itemRequest) {
         return requestService.add(itemRequest);
     }
 
     @PutMapping
-    public ItemRequestDto update(@RequestBody ItemRequest itemRequest) {
+    public ItemRequestDto update(@RequestBody ItemRequestDto itemRequest) {
         return requestService.update(itemRequest);
     }
 
