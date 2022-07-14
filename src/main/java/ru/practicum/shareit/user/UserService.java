@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -8,11 +9,11 @@ public interface UserService {
 
     UserDto update(UserDto user);
 
-    UserDto getById(Integer id);
+    Optional<User> getById(Integer id);
 
     Collection<UserDto> getAll();
 
-    Boolean deleteById(Integer id);
+    void deleteById(Integer id);
 
     UserDto patch(Integer userId, UserDto user);
 }

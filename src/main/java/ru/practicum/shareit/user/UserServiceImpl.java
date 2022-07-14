@@ -6,15 +6,16 @@ import ru.practicum.shareit.error.EmailAlreadyExistsException;
 import ru.practicum.shareit.error.InvalidEmailException;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userStorage;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userStorage) {
-        this.userStorage = userStorage;
+        this.userRepository = userStorage;
     }
 
     @Override
@@ -22,52 +23,53 @@ public class UserServiceImpl implements UserService {
         if (user.getEmail() == null) {
             throw new InvalidEmailException("Электронная почта не указана");
         }
-        for (UserDto userDto : userStorage.getAll().values()) {
-            if (user.getEmail().equals(userDto.getEmail())) {
+        for (User foundedUser : userRepository.findAll()) {
+            if (user.getEmail().equals(foundedUser.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
-        return userStorage.add(UserMapper.toUser(user));
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(user)));
     }
 
     @Override
     public UserDto update(UserDto user) {
-        for (UserDto userDto : userStorage.getAll().values()) {
-            if (user.getEmail().equals(userDto.getEmail())) {
+        for (User foundedUser : userRepository.findAll()) {
+            if (user.getEmail().equals(foundedUser.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
-        return userStorage.update(UserMapper.toUser(user));
+        return UserMapper.toUserDto(userRepository.save(UserMapper.toUser(user)));
     }
 
     @Override
-    public UserDto getById(Integer id) {
-        return userStorage.getById(id);
+    public Optional<User> getById(Integer id) {
+        return userRepository.findById(id);
     }
 
     @Override
     public Collection<UserDto> getAll() {
-        return userStorage.getAll().values();
+        return UserMapper.toUserDtoList(userRepository.findAll());
     }
 
     @Override
-    public Boolean deleteById(Integer id) {
-        return userStorage.deleteById(id);
+    public void deleteById(Integer id) {
+        userRepository.deleteById(id);
     }
 
     @Override
     public UserDto patch(Integer userId, UserDto user) {
-        for (UserDto userDto : userStorage.getAll().values()) {
-            if (user.getEmail() != null && user.getEmail().equals(userDto.getEmail())) {
+        for (User foundedUser : userRepository.findAll()) {
+            if (user.getEmail() != null && user.getEmail().equals(foundedUser.getEmail())) {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
-        return userStorage.patch(userId, UserMapper.toUser(user));
+        return null;
+//        return userRepository.patch(userId, UserMapper.toUser(user));
     }
 }
