@@ -23,27 +23,28 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto add(Integer ownerId, ItemDto item) {
-        if (ownerId == null) {
-            throw new InvalidIdException("Ошибка id пользователя");
-        }
-        if (userRepository.getAll().isEmpty()) {
-            throw new IdNotFoundException("Ни один пользователь не добавлен в систему");
-        }
-        if (item.getAvailable() == null) {
-            throw new InvalidAvailableException("Не задан статус вещи");
-        }
-        if (item.getName() == null || item.getName().isBlank()) {
-            throw new InvalidNameException("Не задано имя вещи");
-        }
-        if (item.getDescription() == null || item.getDescription().isBlank()) {
-            throw new InvalidDescriptionException("Не задано описание вещи");
-        }
-        if (!userRepository.getAll().containsKey(ownerId)) {
-            throw new IdNotFoundException("Id пользователя не найден в базе");
-        }
-        Item createdItem = ItemMapper.toItem(item);
-        createdItem.setOwner(UserMapper.toUser(userRepository.getById(ownerId)));
-        return itemRepository.add(createdItem);
+//        if (ownerId == null) {
+//            throw new InvalidIdException("Ошибка id пользователя");
+//        }
+//        if (userRepository.getAll().isEmpty()) {
+//            throw new IdNotFoundException("Ни один пользователь не добавлен в систему");
+//        }
+//        if (item.getAvailable() == null) {
+//            throw new InvalidAvailableException("Не задан статус вещи");
+//        }
+//        if (item.getName() == null || item.getName().isBlank()) {
+//            throw new InvalidNameException("Не задано имя вещи");
+//        }
+//        if (item.getDescription() == null || item.getDescription().isBlank()) {
+//            throw new InvalidDescriptionException("Не задано описание вещи");
+//        }
+//        if (!userRepository.getAll().containsKey(ownerId)) {
+//            throw new IdNotFoundException("Id пользователя не найден в базе");
+//        }
+//        Item createdItem = ItemMapper.toItem(item);
+//        createdItem.setOwner(UserMapper.toUser(userRepository.getById(ownerId)));
+//        return itemRepository.add(createdItem);
+        return null;
     }
 
     @Override
@@ -53,9 +54,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getAll(Integer userId) {
-        if (!userRepository.getAll().containsKey(userId)) {
-            throw new InvalidUserException("Пользователь не добавлен в систему");
-        }
+//        if (!userRepository.getAll().containsKey(userId)) {
+//            throw new InvalidUserException("Пользователь не добавлен в систему");
+//        }
         return itemRepository.getAll(userId);
     }
 

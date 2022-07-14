@@ -48,8 +48,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getById(Integer id) {
-        return userRepository.findById(id);
+    public UserDto getById(Integer id) {
+        User user = userRepository.findById(id).orElse(new User());
+        return UserMapper.toUserDto(user);
     }
 
     @Override
@@ -69,7 +70,14 @@ public class UserServiceImpl implements UserService {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
-        return null;
-//        return userRepository.patch(userId, UserMapper.toUser(user));
+        User updatedUser = userRepository.findById(userId).orElse(new User());
+        if (user.getName() != null) {
+            updatedUser.setName(user.getName());
+        }
+        if (user.getEmail() != null) {
+            updatedUser.setEmail(user.getEmail());
+        }
+
+        return UserMapper.toUserDto(userRepository.save(updatedUser));
     }
 }

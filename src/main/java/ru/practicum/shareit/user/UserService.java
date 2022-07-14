@@ -9,7 +9,7 @@ public interface UserService {
 
     UserDto update(UserDto user);
 
-    Optional<User> getById(Integer id);
+    UserDto getById(Integer id);
 
     Collection<UserDto> getAll();
 
