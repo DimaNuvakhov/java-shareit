@@ -6,6 +6,7 @@ import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,14 +58,9 @@ public class ItemServiceImpl implements ItemService {
 //        if (!userRepository.getAll().containsKey(userId)) {
 //            throw new InvalidUserException("Пользователь не добавлен в систему");
 //        }
-        List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerIdContains(userId));
+        List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerId(userId));
         return itemDtos;
     }
-
-//    @Override
-//    public Boolean deleteById(Integer userId, Integer itemId) {
-//        return null;
-//    }
 
     @Override
     public ItemDto patch(Integer userId, Integer id, ItemDto item) {
@@ -87,12 +83,11 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.toItemDto(itemRepository.save(foundedItem));
     }
 
-//    @Override
-//    public List<ItemDto> search(String query) {
-//        if (query.isBlank()) {
-//            return new ArrayList<>();
-//        }
-//        String lowerCaseQuery = query.toLowerCase();
-//        return itemRepository.search(lowerCaseQuery);
-//    }
+    @Override
+    public List<ItemDto> search(String query) {
+        if (query.isBlank()) {
+            return new ArrayList<>();
+        }
+        return ItemMapper.toItemDtoList(itemRepository.search(query));
+    }
 }
