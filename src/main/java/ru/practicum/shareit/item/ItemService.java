@@ -13,9 +13,9 @@ public interface ItemService {
 
     List<ItemDto> getAll(Integer userId);
 
-    Boolean deleteById(Integer userId, Integer itemId);
+//    Boolean deleteById(Integer userId, Integer itemId);
 
     ItemDto patch(Integer userId, Integer id, ItemDto item);
 
-    List<ItemDto> search(String query);
+//    List<ItemDto> search(String query);
 }
