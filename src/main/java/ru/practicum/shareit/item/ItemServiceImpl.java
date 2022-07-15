@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,16 +68,23 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto patch(Integer userId, Integer id, ItemDto item) {
-//        Item item =
-//        ItemDto foundedItem = itemRepository.getById(id);
-//        if (userId == null) {
-//            throw new InvalidIdException("Ошибка id пользователя");
-//        }
-//        if (!foundedItem.getOwner().equals(userId)) {
-//            throw new InvalidUserException("Редактировать вещь может только ее владелец");
-//        }
-//        return itemRepository.patch(id, ItemMapper.toItem(item));
-        return null;
+        Item foundedItem = itemRepository.findById(id).orElse(new Item());
+        if (userId == null) {
+            throw new InvalidIdException("Ошибка id пользователя");
+        }
+        if (!foundedItem.getOwnerId().equals(userId)) {
+            throw new InvalidUserException("Редактировать вещь может только ее владелец");
+        }
+        if (item.getName() != null) {
+            foundedItem.setName(item.getName());
+        }
+        if (item.getDescription() != null) {
+            foundedItem.setDescription(item.getDescription());
+        }
+        if (item.getAvailable() != null) {
+            foundedItem.setAvailable(item.getAvailable());
+        }
+        return ItemMapper.toItemDto(itemRepository.save(foundedItem));
     }
 
 //    @Override
