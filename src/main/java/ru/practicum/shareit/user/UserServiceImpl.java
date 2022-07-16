@@ -6,7 +6,6 @@ import ru.practicum.shareit.error.EmailAlreadyExistsException;
 import ru.practicum.shareit.error.InvalidEmailException;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,11 +22,6 @@ public class UserServiceImpl implements UserService {
         if (user.getEmail() == null) {
             throw new InvalidEmailException("Электронная почта не указана");
         }
-        for (User foundedUser : userRepository.findAll()) {
-            if (user.getEmail().equals(foundedUser.getEmail())) {
-                throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
-            }
-        }
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
@@ -36,11 +30,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto user) {
-        for (User foundedUser : userRepository.findAll()) {
-            if (user.getEmail().equals(foundedUser.getEmail())) {
-                throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
-            }
-        }
         if (!user.getEmail().contains("@")) {
             throw new InvalidEmailException("Указан некорректный адрес электронной почты");
         }
