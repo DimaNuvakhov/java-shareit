@@ -38,9 +38,9 @@ public class ItemServiceImpl implements ItemService {
         if (item.getDescription() == null || item.getDescription().isBlank()) {
             throw new InvalidDescriptionException("Не задано описание вещи");
         }
-//        if (!userRepository.getAll().containsKey(ownerId)) {
-//            throw new IdNotFoundException("Id пользователя не найден в базе");
-//        }
+        if (!userRepository.existsUserById(ownerId)) {
+            throw new IdNotFoundException("Id пользователя не найден в базе");
+        }
         Item createdItem = ItemMapper.toItem(item);
         User user = userRepository.findById(ownerId).orElse(new User());
         createdItem.setOwnerId(user.getId());
@@ -55,9 +55,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getAll(Integer userId) {
-//        if (!userRepository.getAll().containsKey(userId)) {
-//            throw new InvalidUserException("Пользователь не добавлен в систему");
-//        }
+        if (!userRepository.existsUserById(userId)) {
+            throw new InvalidUserException("Пользователь не добавлен в систему");
+        }
         List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerId(userId));
         return itemDtos;
     }
@@ -85,9 +85,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> search(String query) {
+        List<Item> items = new ArrayList<>();
         if (query.isBlank()) {
             return new ArrayList<>();
         }
-        return ItemMapper.toItemDtoList(itemRepository.search(query));
+        List<Item> foundedItems = itemRepository.search(query);
+        for (Item item : foundedItems) {
+            if (item.getAvailable()) {
+                items.add(item);
+            }
+        }
+        return ItemMapper.toItemDtoList(items);
     }
 }
