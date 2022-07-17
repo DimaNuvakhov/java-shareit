@@ -10,16 +10,16 @@ public class ItemDto {
     private String name;
     private String description;
     private Boolean available;
-    private Integer owner;
-    private Integer request;
+    private Integer ownerId;
+    private Integer requestId;
 
     public ItemDto(Integer id, String name, String description,
-                   Boolean available, Integer owner, Integer request) {
+                   Boolean available, Integer ownerId, Integer requestId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.available = available;
-        this.owner = owner;
-        this.request = request;
+        this.ownerId = ownerId;
+        this.requestId = requestId;
     }
 }

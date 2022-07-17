@@ -17,27 +17,33 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingDto add(@RequestBody BookingDto booking) {
-        return bookingService.add(booking);
+    public BookingDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                          @RequestBody BookingDto booking) {
+        return bookingService.add(userId, booking);
     }
 
-    @PutMapping
-    public BookingDto update(@RequestBody BookingDto booking) {
-        return bookingService.update(booking);
+    @PatchMapping("/{bookingId}")
+    public BookingDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                            @PathVariable Integer bookingId,
+                            @RequestParam(required = true) Boolean approved) {
+        return bookingService.patch(userId, bookingId, approved);
     }
 
-    @GetMapping("/{id}")
-    public BookingDto get(@PathVariable Integer id) {
-        return bookingService.getById(id);
+    @GetMapping("/{bookingId}")
+    public BookingDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                          @PathVariable Integer bookingId) {
+        return bookingService.getById(userId, bookingId);
     }
 
     @GetMapping
-    public Collection<BookingDto> getAll() {
-        return bookingService.getAll();
+    public Collection<BookingDto> getAllBookingsById(
+            @RequestParam(defaultValue = "ALL", required = false) String state) {
+        return bookingService.getAllBookingsByOwnerId(state);
     }
 
-    @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return bookingService.deleteById(id);
+    @GetMapping("/owner")
+    public Collection<BookingDto> getAllBookingsForAllItemsById(
+            @RequestParam(defaultValue = "ALL", required = false) String state) {
+        return bookingService.getAllBookingsForAllItemsByOwnerId(state);
     }
 }

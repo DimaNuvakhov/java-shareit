@@ -11,16 +11,16 @@ public class BookingDto {
     private Integer id;
     private LocalDateTime start;
     private LocalDateTime end;
-    private Integer item;
-    private Integer booker;
+    private Integer itemId;
+    private Integer bookerId;
     private String status;
 
-    public BookingDto(Integer id, LocalDateTime start, LocalDateTime end, Integer item, Integer booker, String status) {
+    public BookingDto(Integer id, LocalDateTime start, LocalDateTime end, Integer itemId, Integer bookerId, String status) {
         this.id = id;
         this.start = start;
         this.end = end;
-        this.item = item;
-        this.booker = booker;
+        this.itemId = itemId;
+        this.bookerId = bookerId;
         this.status = status;
     }
 }
