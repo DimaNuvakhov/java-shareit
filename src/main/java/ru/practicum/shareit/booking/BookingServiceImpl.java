@@ -6,6 +6,7 @@ import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.status.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class BookingServiceImpl implements BookingService {
         if (!userId.equals(item.getOwnerId())) {
 //            throw new
         }
+//  TODO если статус waiting
         if (approved) {
             booking.setStatus(Status.APPROVED);
         } else {
@@ -56,8 +58,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByOwnerId(String state) {
-        return null;
+    public List<BookingDto> getAllBookingsByOwnerId(Integer userId, String state) {
+        if (state.equals("ALL")) {
+            return BookingMapper.toBookingDtoList
+                    (bookingRepository.findByBookerIdAndEndIsBefore(userId, null, null));
+        }
+        return new ArrayList<>();
     }
 
     @Override

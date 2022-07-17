@@ -2,7 +2,8 @@ package ru.practicum.shareit.booking;
 
 import ru.practicum.shareit.status.Status;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingMapper {
 
@@ -13,12 +14,12 @@ public class BookingMapper {
                 booking.getStatus() != null ? booking.getStatus().toString() : null);
     }
 
-    public static HashMap<Integer, BookingDto> toBookingDtoMap(HashMap<Integer, Booking> bookings) {
-        HashMap<Integer, BookingDto> bookingDtoMap = new HashMap<>();
-        for (Booking booking : bookings.values()) {
-            bookingDtoMap.put(booking.getId(), toBookingDto(booking));
+    public static List<BookingDto> toBookingDtoList(List<Booking> bookings) {
+        List<BookingDto> bookingDtoList = new ArrayList<>();
+        for (Booking booking : bookings) {
+            bookingDtoList.add(toBookingDto(booking));
         }
-        return bookingDtoMap;
+        return bookingDtoList;
     }
 
     public static Booking toBooking(BookingDto bookingDto) {
@@ -27,14 +28,15 @@ public class BookingMapper {
     }
 
     private static Status toStatusFromString(String string) {
-        if (string.equals("WAITING")) {
-            return Status.WAITING;
-        } else if (string.equals("APPROVED")) {
-            return Status.APPROVED;
-        } else if (string.equals("REJECTED")) {
-            return Status.REJECTED;
-        } else if (string.equals("CANCELED")) {
-            return Status.CANCELED;
+        switch (string) {
+            case "WAITING":
+                return Status.WAITING;
+            case "APPROVED":
+                return Status.APPROVED;
+            case "REJECTED":
+                return Status.REJECTED;
+            case "CANCELED":
+                return Status.CANCELED;
         }
         return null;
     }
