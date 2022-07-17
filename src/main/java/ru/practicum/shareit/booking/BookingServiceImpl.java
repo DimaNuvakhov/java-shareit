@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemRepository;
-import ru.practicum.shareit.status.Status;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

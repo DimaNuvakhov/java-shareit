@@ -1,7 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.status.Status;
-
 import java.util.ArrayList;
 import java.util.List;
 
