@@ -119,4 +119,12 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
 }

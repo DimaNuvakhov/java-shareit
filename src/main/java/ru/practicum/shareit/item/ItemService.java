@@ -16,4 +16,7 @@ public interface ItemService {
     ItemDto patch(Integer userId, Integer id, ItemDto item);
 
     List<ItemDto> search(String query);
+
+    CommentDto addComment(Integer userId, Integer itemId, CommentDto comment);
+
 }

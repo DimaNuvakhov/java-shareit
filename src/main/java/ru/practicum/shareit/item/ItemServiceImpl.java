@@ -2,10 +2,12 @@ package ru.practicum.shareit.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,17 @@ public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+
+    private final BookingRepository bookingRepository;
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository,
+                           CommentRepository commentRepository, BookingRepository bookingRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -99,5 +107,18 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         return ItemMapper.toItemDtoList(items);
+    }
+
+    @Override
+    public CommentDto addComment(Integer userId, Integer itemId, CommentDto commentDto) {
+        Comment createdComment = CommentMapper.toComment(commentDto);
+        createdComment.setItemId(itemId);
+        createdComment.setAuthorId(userId);
+        if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter
+                (createdComment.getAuthorId(), createdComment.getItemId(), LocalDateTime.now())) {
+            throw new InvalidCommentException("Оставлять отзыв может только тот пользователь, который брал " +
+                    "вещь в аренду и только после окончания срока аренды");
+        }
+        return CommentMapper.toCommentDto(commentRepository.save(createdComment));
     }
 }
