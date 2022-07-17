@@ -42,14 +42,16 @@ public class ItemServiceImpl implements ItemService {
             throw new IdNotFoundException("Id пользователя не найден в базе");
         }
         Item createdItem = ItemMapper.toItem(item);
-        User user = userRepository.findById(ownerId).orElse(new User());
+        User user = userRepository.findById(ownerId).
+                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + ownerId + " не найдена"));
         createdItem.setOwnerId(user.getId());
         return ItemMapper.toItemDto(itemRepository.save(createdItem));
     }
 
     @Override
     public ItemDto getById(Integer itemId) {
-        Item item = itemRepository.findById(itemId).orElse(new Item());
+        Item item = itemRepository.findById(itemId).
+                orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
         return ItemMapper.toItemDto(item);
     }
 
@@ -64,7 +66,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto patch(Integer userId, Integer id, ItemDto item) {
-        Item foundedItem = itemRepository.findById(id).orElse(new Item());
+        Item foundedItem = itemRepository.
+                findById(id).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + id + " не найдена"));
         if (userId == null) {
             throw new InvalidIdException("Ошибка id пользователя");
         }

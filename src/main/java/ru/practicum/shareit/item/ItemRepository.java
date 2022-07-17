@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
+    Boolean existsItemById(Integer id);
+
     List<Item> getAllByOwnerId(Integer id);
 
     @Query(" select i from Item i " +

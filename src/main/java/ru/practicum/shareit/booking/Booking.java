@@ -25,9 +25,9 @@ public class Booking {
     private Integer itemId;
     @Column(name = "booker_id")
     private Integer bookerId;
-    private Status status;
+    private String status;
 
-    public Booking(Integer id, LocalDateTime start, LocalDateTime end, Integer itemId, Integer bookerId, Status status) {
+    public Booking(Integer id, LocalDateTime start, LocalDateTime end, Integer itemId, Integer bookerId, String status) {
         this.id = id;
         this.start = start;
         this.end = end;

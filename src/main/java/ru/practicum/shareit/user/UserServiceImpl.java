@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.EmailAlreadyExistsException;
 import ru.practicum.shareit.error.InvalidEmailException;
+import ru.practicum.shareit.error.UserNotFoundException;
 
 import java.util.Collection;
 
@@ -38,7 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Integer id) {
-        User user = userRepository.findById(id).orElse(new User());
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + id + " не найден"));
         return UserMapper.toUserDto(user);
     }
 
@@ -59,7 +61,8 @@ public class UserServiceImpl implements UserService {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
-        User updatedUser = userRepository.findById(userId).orElse(new User());
+        User updatedUser = userRepository.findById(userId).
+                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
         if (user.getName() != null) {
             updatedUser.setName(user.getName());
         }
