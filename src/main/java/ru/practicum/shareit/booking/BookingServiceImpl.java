@@ -108,8 +108,29 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state) {
+        // TODO запрос имеет смысл для владельца хотя бы одной вещи
         if (state.equals("ALL")) {
-            bookingRepository.findAllUsersBookings(userId);
+           return BookingMapper.toBookingDtoList(bookingRepository.findAllUsersBookings(userId));
+        }
+        if (state.equals("CURRENT")) {
+            return BookingMapper.toBookingDtoList
+                    (bookingRepository.findAllCurrentUsersBookings(userId, LocalDateTime.now()));
+        }
+        if (state.equals("PAST")) {
+            return BookingMapper.toBookingDtoList(bookingRepository.findAllPastUsersBookings
+                    (userId, LocalDateTime.now(), LocalDateTime.now()));
+        }
+        if (state.equals("FUTURE")) {
+            return BookingMapper.toBookingDtoList(bookingRepository.finnAllFutureUsersBookings
+                    (userId, LocalDateTime.now(), LocalDateTime.now()));
+        }
+        if (state.equals("WAITING")) {
+            return BookingMapper.toBookingDtoList
+                    (bookingRepository.findAllUsersBookingsWithStatus(userId, Status.WAITING.toString()));
+        }
+        if (state.equals("REJECTED")) {
+            return BookingMapper.toBookingDtoList
+                    (bookingRepository.findAllUsersBookingsWithStatus(userId, Status.REJECTED.toString()));
         }
         return new ArrayList<>();
     }
