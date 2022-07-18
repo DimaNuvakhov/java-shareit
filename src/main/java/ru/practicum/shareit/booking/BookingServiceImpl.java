@@ -107,7 +107,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsForAllItemsByOwnerId(String state) {
-        return null;
+    public List<BookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state) {
+        if (state.equals("ALL")) {
+            bookingRepository.findAllUsersBookings(userId);
+        }
+        return new ArrayList<>();
     }
 }
