@@ -8,8 +8,20 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
-    List<Booking> findByBookerIdAndEndIsBefore(Integer bookerId, LocalDateTime end, Sort sort);
+    List<Booking> findByBookerIdOrderByStartDesc(Integer bookerId);
+
+    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc
+            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+
+    List<Booking> findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc
+            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+
+    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc
+            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+
+    List<Booking> findByBookerIdAndStatusContainsOrderByStartDesc(Integer bookerId, String status);
 
     Boolean existsByBookerIdAndItemIdAndEndIsAfter(Integer bookerId, Integer itemId, LocalDateTime end);
+
 
 }
