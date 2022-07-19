@@ -17,33 +17,33 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                          @RequestBody BookingDto booking) {
+    public ReturnedBookingDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                                   @RequestBody ResultingBookingDto booking) {
         return bookingService.add(userId, booking);
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                            @PathVariable Integer bookingId,
-                            @RequestParam(required = true) Boolean approved) {
+    public ReturnedBookingDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                                     @PathVariable Integer bookingId,
+                                     @RequestParam(required = true) Boolean approved) {
         return bookingService.patch(userId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
-    public BookingDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                          @PathVariable Integer bookingId) {
+    public ReturnedBookingDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
+                                   @PathVariable Integer bookingId) {
         return bookingService.getById(userId, bookingId);
     }
 
     @GetMapping
-    public Collection<BookingDto> getAllBookingsByOwnerId(
+    public Collection<ReturnedBookingDto> getAllBookingsByOwnerId(
             @RequestHeader("X-Sharer-User-Id") Integer userId,
             @RequestParam(defaultValue = "ALL", required = false) String state) {
         return bookingService.getAllBookingsByOwnerId(userId, state);
     }
 
     @GetMapping("/owner")
-    public Collection<BookingDto> getAllBookingsForAllItemsById(
+    public Collection<ReturnedBookingDto> getAllBookingsForAllItemsById(
             @RequestHeader("X-Sharer-User-Id") Integer userId,
             @RequestParam(defaultValue = "ALL", required = false) String state) {
         return bookingService.getAllBookingsForAllItemsByOwnerId(userId, state);

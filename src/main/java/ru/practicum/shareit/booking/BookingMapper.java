@@ -5,24 +5,24 @@ import java.util.List;
 
 public class BookingMapper {
 
-    public static BookingDto toBookingDto(Booking booking) {
-        return new BookingDto(booking.getId(), booking.getStart(), booking.getEnd(),
-                booking.getItemId() != null ? booking.getItemId() : null,
-                booking.getBookerId() != null ? booking.getBookerId() : null,
+    public static ReturnedBookingDto toReturnedBookingDto(Booking booking) {
+        return new ReturnedBookingDto(booking.getId(), booking.getStart(), booking.getEnd(),
+                booking.getItem() != null ? booking.getItem() : null,
+                booking.getBooker() != null ? booking.getBooker() : null,
                 booking.getStatus() != null ? booking.getStatus() : null);
     }
 
-    public static List<BookingDto> toBookingDtoList(List<Booking> bookings) {
-        List<BookingDto> bookingDtoList = new ArrayList<>();
+    public static List<ReturnedBookingDto> toBookingDtoList(List<Booking> bookings) {
+        List<ReturnedBookingDto> returnedBookingDtoList = new ArrayList<>();
         for (Booking booking : bookings) {
-            bookingDtoList.add(toBookingDto(booking));
+            returnedBookingDtoList.add(toReturnedBookingDto(booking));
         }
-        return bookingDtoList;
+        return returnedBookingDtoList;
     }
 
-    public static Booking toBooking(BookingDto bookingDto) {
-        return new Booking(bookingDto.getId(), bookingDto.getStart(), bookingDto.getEnd(),
-                bookingDto.getItemId(), bookingDto.getBookerId(), setStatusName(bookingDto.getStatus()));
+    public static Booking toBooking(ResultingBookingDto resultingBookingDto) {
+        return new Booking(resultingBookingDto.getId(), resultingBookingDto.getStart(), resultingBookingDto.getEnd(),
+                null, null, null);
     }
 
     private static String setStatusName(String string) {

@@ -24,27 +24,27 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     Boolean existsByBookerIdAndItemIdAndEndIsAfter(Integer bookerId, Integer itemId, LocalDateTime end);
 
-    @Query("select b from Booking b Inner Join Item i on b.itemId = i.id " +
+    @Query("select b from Booking b Inner Join Item i on b.item.id = i.id " +
             "Where i.ownerId = ?1 " +
             "order by b.start desc")
     List<Booking> findAllUsersBookings(Integer ownerId);
 
-    @Query("select b from Booking b Inner Join Item i on b.itemId = i.id " +
+    @Query("select b from Booking b Inner Join Item i on b.item.id = i.id " +
             "Where i.ownerId = ?1 and ?2 between b.start and b.end " +
             "order by b.start desc")
     List<Booking> findAllCurrentUsersBookings(Integer ownerId, LocalDateTime date);
 
-    @Query("select b from Booking b Inner Join Item i on b.itemId = i.id " +
+    @Query("select b from Booking b Inner Join Item i on b.item.id = i.id " +
             "Where i.ownerId = ?1 and ?2 >= b.end and ?3 >= b.start " +
             "order by b.start desc")
     List<Booking> findAllPastUsersBookings(Integer ownerId, LocalDateTime dateOne, LocalDateTime dateTwo);
 
-    @Query("select b from Booking b Inner Join Item i on b.itemId = i.id " +
+    @Query("select b from Booking b Inner Join Item i on b.item.id = i.id " +
             "Where i.ownerId = ?1 and ?2 <= b.end and ?3 <= b.start " +
             "order by b.start desc")
     List<Booking> finnAllFutureUsersBookings(Integer ownerId, LocalDateTime dateOne, LocalDateTime dateTwo);
 
-    @Query("select b from Booking b Inner Join Item i on b.itemId = i.id " +
+    @Query("select b from Booking b Inner Join Item i on b.item.id = i.id " +
             "Where i.ownerId = ?1 and b.status like ?2 " +
             "order by b.start desc")
     List<Booking> findAllUsersBookingsWithStatus(Integer ownerId, String query);

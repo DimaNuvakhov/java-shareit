@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BookingDto {
+public class ResultingBookingDto {
     private Integer id;
     private LocalDateTime start;
     private LocalDateTime end;
@@ -15,7 +15,7 @@ public class BookingDto {
     private Integer bookerId;
     private String status;
 
-    public BookingDto(Integer id, LocalDateTime start, LocalDateTime end, Integer itemId, Integer bookerId, String status) {
+    public ResultingBookingDto(Integer id, LocalDateTime start, LocalDateTime end, Integer itemId, Integer bookerId, String status) {
         this.id = id;
         this.start = start;
         this.end = end;

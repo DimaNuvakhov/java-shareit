@@ -97,7 +97,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler // TODO Возможно неправильно
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleInvalidAccessException(final InvalidAccessException e) {
         return new ErrorResponse(
                 e.getMessage()
