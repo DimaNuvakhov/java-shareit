@@ -10,7 +10,7 @@ public class ItemMapper {
                 item.getDescription(), item.getAvailable(),
                 item.getOwnerId() != null ? item.getOwnerId() : null,
                 item.getRequestId() != null ? item.getRequestId() : null,
-                null, null, null);
+                null, null);
     }
 
     public static List<ItemDto> toItemDtoList(List<Item> items) {

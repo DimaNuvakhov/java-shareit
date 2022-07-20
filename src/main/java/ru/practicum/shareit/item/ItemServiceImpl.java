@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Booking;
+import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.User;
@@ -65,8 +66,12 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId).
                 orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
         ItemDto itemDto = ItemMapper.toItemDto(item);
-        itemDto.setComments(new ArrayList<>());
-        // TODO добавляем комменты или путой лист
+        if ((bookingRepository.findLastBooking(itemId, userId)) != null && (bookingRepository.findNextBooking(itemId, userId) != null)) {
+            itemDto.setLastBooking(BookingMapper.toItemBookingDto(bookingRepository.findLastBooking(itemId, userId)));
+            itemDto.setNextBooking(BookingMapper.toItemBookingDto(bookingRepository.findNextBooking(itemId, userId)));
+        }
+        List<Comment> comments = commentRepository.findAllByItemId(itemId);
+        itemDto.setComments(comments);
         return itemDto;
     }
 
@@ -76,6 +81,15 @@ public class ItemServiceImpl implements ItemService {
             throw new InvalidUserException("Пользователь не добавлен в систему");
         }
         List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerId(userId));
+        for (ItemDto itemDto : itemDtos) {
+            if ((bookingRepository.findLastBooking(itemDto.getId(), userId)) != null
+                    && (bookingRepository.findNextBooking(itemDto.getId(), userId) != null)) {
+                itemDto.setLastBooking(BookingMapper.toItemBookingDto(bookingRepository.findLastBooking(itemDto.getId(), userId)));
+                itemDto.setNextBooking(BookingMapper.toItemBookingDto(bookingRepository.findNextBooking(itemDto.getId(), userId)));
+                List<Comment> comments = commentRepository.findAllByItemId(itemDto.getId());
+                itemDto.setComments(comments);
+            }
+        }
         return itemDtos;
     }
 
@@ -125,10 +139,11 @@ public class ItemServiceImpl implements ItemService {
                 orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
         createdComment.setItem(item);
         createdComment.setAuthor(user);
+        createdComment.setCreated(LocalDateTime.now());
         if (createdComment.getText().isBlank()) {
             throw new InvalidCommentException("Комментарий не может быть пустым");
         }
-        if (bookingRepository.existsByItemIdAndBookerId(itemId, userId)) {
+        if (bookingRepository.findBookingByItemIdAndByBookerId(itemId, userId).size() == 0) {
             throw new InvalidCommentException("Пользователь не брал данную вещь в аренду");
         }
         if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter

@@ -9,8 +9,12 @@ import lombok.ToString;
 @ToString
 public class ItemBookingDto {
 
-    Integer id;
+    private Integer id;
 
-    Integer bookingId;
+    private Integer bookerId;
 
+    public ItemBookingDto(Integer id, Integer bookerId) {
+        this.id = id;
+        this.bookerId = bookerId;
+    }
 }

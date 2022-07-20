@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.shareit.user.User;
 
 import java.time.LocalDateTime;
 
@@ -13,17 +14,17 @@ public class CommentDto {
 
     private String text;
 
-    private Integer itemId;
+    private Item item;
 
-    private Integer authorId;
+    private User author;
 
     private LocalDateTime created;
 
-    public CommentDto(Integer id, String text, Integer itemId, Integer authorId, LocalDateTime created) {
+    public CommentDto(Integer id, String text, Item item, User author, LocalDateTime created) {
         this.id = id;
         this.text = text;
-        this.itemId = itemId;
-        this.authorId = authorId;
+        this.item = item;
+        this.author = author;
         this.created = created;
     }
 }

@@ -24,7 +24,7 @@ public class ItemDto {
     private List<Comment> comments = new ArrayList<>();
 
     public ItemDto(Integer id, String name, String description, Boolean available, Integer ownerId,
-                   Integer requestId, ItemBookingDto lastBooking, ItemBookingDto nextBooking, List<Comment> comments) {
+                   Integer requestId, ItemBookingDto lastBooking, ItemBookingDto nextBooking) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -33,6 +33,5 @@ public class ItemDto {
         this.requestId = requestId;
         this.lastBooking = lastBooking;
         this.nextBooking = nextBooking;
-        this.comments = comments;
     }
 }

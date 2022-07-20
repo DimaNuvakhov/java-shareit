@@ -7,7 +7,7 @@ public class CommentMapper {
 
     public static CommentDto toCommentDto(Comment comment) {
         return new CommentDto(comment.getId(), comment.getText(),
-                comment.getItem().getId(), comment.getAuthor().getId(), comment.getCreated());
+                comment.getItem(), comment.getAuthor(), comment.getCreated());
     }
 
     public static List<CommentDto> toCommentDtoList(List<Comment> comments) {

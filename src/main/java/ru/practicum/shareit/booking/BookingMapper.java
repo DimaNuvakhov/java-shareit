@@ -38,4 +38,9 @@ public class BookingMapper {
         }
         return null;
     }
+
+    public static ItemBookingDto toItemBookingDto(Booking booking) {
+        return new ItemBookingDto(booking.getId() != null ? booking.getId() : null,
+                booking.getBooker().getId() != null ? booking.getBooker().getId() : null);
+    }
 }

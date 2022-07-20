@@ -49,7 +49,24 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "order by b.start desc")
     List<Booking> findAllUsersBookingsWithStatus(Integer ownerId, String query);
 
+    @Query(value = "select * from bookings b "
+            + "left join items i on i.id = b.item_id "
+            + "where b.item_id = ?1 and b.end_date_time < now() and b.status = 'APPROVED' and i.owner_id = ?2 "
+            + "order by now() - b.end_date_time asc "
+            + "limit 1",
+            nativeQuery = true)
+    Booking findLastBooking(Integer itemId, Integer ownerId);
 
-    Boolean existsByItemIdAndBookerId(Integer itemId, Integer bookreId);
+    @Query(value = "select * from bookings b "
+            + "left join items i on i.id = b.item_id "
+            + "where b.item_id = ?1 and b.start_date_time > now() and b.status = 'APPROVED' and i.owner_id = ?2 "
+            + "order by b.start_date_time - now() asc "
+            + "limit 1",
+            nativeQuery = true)
+    Booking findNextBooking(Integer itemId, Integer ownerId);
+
+    @Query(value = "select * from bookings " +
+            "where item_id = ?1 and end_date_time < now() and booker_id = ?2 and status = 'APPROVED'", nativeQuery = true)
+    List<Booking>findBookingByItemIdAndByBookerId(Integer itemId, Integer bookerId);
 
 }
