@@ -2,6 +2,7 @@ package ru.practicum.shareit.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.user.User;
@@ -51,16 +52,22 @@ public class ItemServiceImpl implements ItemService {
         }
         Item createdItem = ItemMapper.toItem(item);
         User user = userRepository.findById(ownerId).
-                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + ownerId + " не найдена"));
+                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + ownerId + " не найден"));
         createdItem.setOwnerId(user.getId());
         return ItemMapper.toItemDto(itemRepository.save(createdItem));
     }
 
     @Override
-    public ItemDto getById(Integer itemId) {
+    public ItemDto getById(Integer userId, Integer itemId) {
+        if (!userRepository.existsUserById(userId)) {
+            throw new UserNotFoundException("Пользователь с id " + userId + " не найден");
+        }
         Item item = itemRepository.findById(itemId).
                 orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
-        return ItemMapper.toItemDto(item);
+        ItemDto itemDto = ItemMapper.toItemDto(item);
+        itemDto.setComments(new ArrayList<>());
+        // TODO добавляем комменты или путой лист
+        return itemDto;
     }
 
     @Override
@@ -112,10 +119,20 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto addComment(Integer userId, Integer itemId, CommentDto commentDto) {
         Comment createdComment = CommentMapper.toComment(commentDto);
-        createdComment.setItemId(itemId);
-        createdComment.setAuthorId(userId);
+        Item item = itemRepository.
+                findById(itemId).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
+        User user = userRepository.findById(userId).
+                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
+        createdComment.setItem(item);
+        createdComment.setAuthor(user);
+        if (createdComment.getText().isBlank()) {
+            throw new InvalidCommentException("Комментарий не может быть пустым");
+        }
+        if (bookingRepository.existsByItemIdAndBookerId(itemId, userId)) {
+            throw new InvalidCommentException("Пользователь не брал данную вещь в аренду");
+        }
         if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter
-                (createdComment.getAuthorId(), createdComment.getItemId(), LocalDateTime.now())) {
+                (createdComment.getAuthor().getId(), createdComment.getItem().getId(), LocalDateTime.now())) {
             throw new InvalidCommentException("Оставлять отзыв может только тот пользователь, который брал " +
                     "вещь в аренду и только после окончания срока аренды");
         }

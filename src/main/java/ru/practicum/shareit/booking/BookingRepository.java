@@ -50,4 +50,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findAllUsersBookingsWithStatus(Integer ownerId, String query);
 
 
+    Boolean existsByItemIdAndBookerId(Integer itemId, Integer bookreId);
+
 }

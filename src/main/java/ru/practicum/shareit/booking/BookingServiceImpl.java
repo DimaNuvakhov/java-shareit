@@ -62,7 +62,9 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getEnd().isBefore(LocalDateTime.now())) {
             throw new InvalidDateException("Дата конца не может быть в прошлом");
         }
-
+        if (booking.getStart().isAfter(booking.getEnd())) {
+            throw new InvalidDateException("Дата начала не может быть в позже даты конца");
+        }
         return BookingMapper.toReturnedBookingDto(bookingRepository.save(booking));
     }
 
