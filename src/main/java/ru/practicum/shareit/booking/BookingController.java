@@ -18,20 +18,20 @@ public class BookingController {
 
     @PostMapping
     public ReturnedBookingDto add(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                                   @RequestBody ResultingBookingDto booking) {
+                                  @RequestBody ResultingBookingDto booking) {
         return bookingService.add(userId, booking);
     }
 
     @PatchMapping("/{bookingId}")
     public ReturnedBookingDto patch(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                                     @PathVariable Integer bookingId,
-                                     @RequestParam(required = true) Boolean approved) {
+                                    @PathVariable Integer bookingId,
+                                    @RequestParam(required = true) Boolean approved) {
         return bookingService.patch(userId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
     public ReturnedBookingDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
-                                   @PathVariable Integer bookingId) {
+                                  @PathVariable Integer bookingId) {
         return bookingService.getById(userId, bookingId);
     }
 

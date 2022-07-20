@@ -2,7 +2,6 @@ package ru.practicum.shareit.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.error.*;
@@ -70,8 +69,7 @@ public class ItemServiceImpl implements ItemService {
             itemDto.setLastBooking(BookingMapper.toItemBookingDto(bookingRepository.findLastBooking(itemId, userId)));
             itemDto.setNextBooking(BookingMapper.toItemBookingDto(bookingRepository.findNextBooking(itemId, userId)));
         }
-        List<Comment> comments = commentRepository.findAllByItemId(itemId);
-        itemDto.setComments(comments);
+        itemDto.setComments(CommentMapper.toCommentDtoList(commentRepository.findAllByItemId(itemId)));
         return itemDto;
     }
 
@@ -86,8 +84,7 @@ public class ItemServiceImpl implements ItemService {
                     && (bookingRepository.findNextBooking(itemDto.getId(), userId) != null)) {
                 itemDto.setLastBooking(BookingMapper.toItemBookingDto(bookingRepository.findLastBooking(itemDto.getId(), userId)));
                 itemDto.setNextBooking(BookingMapper.toItemBookingDto(bookingRepository.findNextBooking(itemDto.getId(), userId)));
-                List<Comment> comments = commentRepository.findAllByItemId(itemDto.getId());
-                itemDto.setComments(comments);
+                itemDto.setComments(CommentMapper.toCommentDtoList(commentRepository.findAllByItemId(itemDto.getId())));
             }
         }
         return itemDtos;

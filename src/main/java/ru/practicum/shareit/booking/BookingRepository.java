@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -49,17 +48,15 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "order by b.start desc")
     List<Booking> findAllUsersBookingsWithStatus(Integer ownerId, String query);
 
-    @Query(value = "select * from bookings b "
-            + "left join items i on i.id = b.item_id "
-            + "where b.item_id = ?1 and b.end_date_time < now() and b.status = 'APPROVED' and i.owner_id = ?2 "
+    @Query(value = "select * from bookings b left join items i on i.id = b.item_id "
+            + "Where b.item_id = ?1 and b.end_date_time < now() and b.status = 'APPROVED' and i.owner_id = ?2 "
             + "order by now() - b.end_date_time asc "
             + "limit 1",
             nativeQuery = true)
     Booking findLastBooking(Integer itemId, Integer ownerId);
 
-    @Query(value = "select * from bookings b "
-            + "left join items i on i.id = b.item_id "
-            + "where b.item_id = ?1 and b.start_date_time > now() and b.status = 'APPROVED' and i.owner_id = ?2 "
+    @Query(value = "select * from bookings b left join items i on i.id = b.item_id "
+            + "Where b.item_id = ?1 and b.start_date_time > now() and b.status = 'APPROVED' and i.owner_id = ?2 "
             + "order by b.start_date_time - now() asc "
             + "limit 1",
             nativeQuery = true)

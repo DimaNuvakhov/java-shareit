@@ -31,7 +31,7 @@ public class ItemController {
 
     @GetMapping("{itemId}")
     public ItemDto get(@RequestHeader("X-Sharer-User-Id") Integer userId,
-            @PathVariable Integer itemId) {
+                       @PathVariable Integer itemId) {
         return itemService.getById(userId, itemId);
 
     }
@@ -48,8 +48,8 @@ public class ItemController {
 
     @PostMapping("{itemId}/comment")
     public CommentDto addComment(@RequestHeader("X-Sharer-User-Id") Integer userId,
-            @PathVariable Integer itemId,
-            @RequestBody CommentDto comment) {
+                                 @PathVariable Integer itemId,
+                                 @RequestBody CommentDto comment) {
         return itemService.addComment(userId, itemId, comment);
     }
 

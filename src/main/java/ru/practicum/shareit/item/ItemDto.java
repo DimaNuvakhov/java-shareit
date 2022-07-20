@@ -21,7 +21,7 @@ public class ItemDto {
 
     private ItemBookingDto nextBooking;
 
-    private List<Comment> comments = new ArrayList<>();
+    private List<CommentDto> comments = new ArrayList<>();
 
     public ItemDto(Integer id, String name, String description, Boolean available, Integer ownerId,
                    Integer requestId, ItemBookingDto lastBooking, ItemBookingDto nextBooking) {
