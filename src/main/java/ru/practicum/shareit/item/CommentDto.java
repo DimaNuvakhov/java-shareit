@@ -13,13 +13,13 @@ public class CommentDto {
 
     private String text;
 
-    private Item item;
+    private ItemDto item;
 
     private String authorName;
 
     private LocalDateTime created;
 
-    public CommentDto(Integer id, String text, Item item, String authorName, LocalDateTime created) {
+    public CommentDto(Integer id, String text, ItemDto item, String authorName, LocalDateTime created) {
         this.id = id;
         this.text = text;
         this.item = item;

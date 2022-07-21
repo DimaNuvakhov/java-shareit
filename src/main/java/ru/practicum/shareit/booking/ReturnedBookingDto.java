@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.shareit.item.Item;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.item.ItemDto;
+import ru.practicum.shareit.user.UserDto;
 
 import java.time.LocalDateTime;
 
@@ -19,13 +20,13 @@ public class ReturnedBookingDto {
 
     private LocalDateTime end;
 
-    private Item item;
+    private ItemDto item;
 
-    private User booker;
+    private UserDto booker;
 
     private String status;
 
-    public ReturnedBookingDto(Integer id, LocalDateTime start, LocalDateTime end, Item item, User booker, String status) {
+    public ReturnedBookingDto(Integer id, LocalDateTime start, LocalDateTime end, ItemDto item, UserDto booker, String status) {
         this.id = id;
         this.start = start;
         this.end = end;

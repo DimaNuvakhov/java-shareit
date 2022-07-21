@@ -30,17 +30,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public ReturnedBookingDto add(Integer userId, ResultingBookingDto resultingBookingDto) {
-        // Достаем вещь и пользователя
         Item item = itemRepository.findById(resultingBookingDto.getItemId()).
                 orElseThrow(() -> new ItemNotFoundException("Вещь с id " + resultingBookingDto.getItemId() + " не найдена"));
         User booker = userRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
-        // Создаем booking и устанавливаем поля
         Booking booking = BookingMapper.toBooking(resultingBookingDto);
         booking.setStatus(Status.WAITING.toString());
         booking.setBooker(booker);
         booking.setItem(item);
-        // Валидация
         if (item.getOwnerId().equals(userId)) {
             throw new InvalidAccessException("Владелец вещи не может ее бронировать");
         }
