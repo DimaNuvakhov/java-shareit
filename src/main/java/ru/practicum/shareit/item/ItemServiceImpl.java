@@ -140,7 +140,7 @@ public class ItemServiceImpl implements ItemService {
         if (createdComment.getText().isBlank()) {
             throw new InvalidCommentException("Комментарий не может быть пустым");
         }
-        if (bookingRepository.findBookingByItemIdAndByBookerId(itemId, userId).size() == 0) {
+        if (bookingRepository.findBookingByItemIdAndByBookerId(itemId, userId).isEmpty()) {
             throw new InvalidCommentException("Пользователь не брал данную вещь в аренду");
         }
         if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter

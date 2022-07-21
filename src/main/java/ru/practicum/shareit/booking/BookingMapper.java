@@ -25,20 +25,6 @@ public class BookingMapper {
                 null, null, null);
     }
 
-    private static String setStatusName(String string) {
-        switch (string) {
-            case "WAITING":
-                return Status.WAITING.toString();
-            case "APPROVED":
-                return Status.APPROVED.toString();
-            case "REJECTED":
-                return Status.REJECTED.toString();
-            case "CANCELED":
-                return Status.CANCELED.toString();
-        }
-        return null;
-    }
-
     public static ItemBookingDto toItemBookingDto(Booking booking) {
         return new ItemBookingDto(booking.getId() != null ? booking.getId() : null,
                 booking.getBooker().getId() != null ? booking.getBooker().getId() : null);
