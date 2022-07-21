@@ -51,8 +51,8 @@ public class ItemServiceImpl implements ItemService {
             throw new IdNotFoundException("Id пользователя не найден в базе");
         }
         Item createdItem = ItemMapper.toItem(item);
-        User user = userRepository.findById(ownerId).
-                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + ownerId + " не найден"));
+        User user = userRepository.findById(ownerId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + ownerId + " не найден"));
         createdItem.setOwnerId(user.getId());
         return ItemMapper.toItemDto(itemRepository.save(createdItem));
     }
@@ -62,8 +62,8 @@ public class ItemServiceImpl implements ItemService {
         if (!userRepository.existsUserById(userId)) {
             throw new UserNotFoundException("Пользователь с id " + userId + " не найден");
         }
-        Item item = itemRepository.findById(itemId).
-                orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
         ItemDto itemDto = ItemMapper.toItemDto(item);
         if ((bookingRepository.findLastBooking(itemId, userId)) != null && (bookingRepository.findNextBooking(itemId, userId) != null)) {
             itemDto.setLastBooking(BookingMapper.toItemBookingDto(bookingRepository.findLastBooking(itemId, userId)));
@@ -92,8 +92,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto patch(Integer userId, Integer id, ItemDto item) {
-        Item foundedItem = itemRepository.
-                findById(id).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + id + " не найдена"));
+        Item foundedItem = itemRepository
+                .findById(id).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + id + " не найдена"));
         if (userId == null) {
             throw new InvalidIdException("Ошибка id пользователя");
         }
@@ -130,10 +130,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto addComment(Integer userId, Integer itemId, CommentDto commentDto) {
         Comment createdComment = CommentMapper.toComment(commentDto);
-        Item item = itemRepository.
-                findById(itemId).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
-        User user = userRepository.findById(userId).
-                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
+        Item item = itemRepository
+                .findById(itemId).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
         createdComment.setItem(item);
         createdComment.setAuthor(user);
         createdComment.setCreated(LocalDateTime.now());
@@ -143,8 +143,8 @@ public class ItemServiceImpl implements ItemService {
         if (bookingRepository.findBookingByItemIdAndByBookerId(itemId, userId).isEmpty()) {
             throw new InvalidCommentException("Пользователь не брал данную вещь в аренду");
         }
-        if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter
-                (createdComment.getAuthor().getId(), createdComment.getItem().getId(), LocalDateTime.now())) {
+        if (!bookingRepository.existsByBookerIdAndItemIdAndEndIsAfter(
+                createdComment.getAuthor().getId(), createdComment.getItem().getId(), LocalDateTime.now())) {
             throw new InvalidCommentException("Оставлять отзыв может только тот пользователь, который брал " +
                     "вещь в аренду и только после окончания срока аренды");
         }

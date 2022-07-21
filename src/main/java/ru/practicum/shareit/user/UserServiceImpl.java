@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Integer id) {
-        User user = userRepository.findById(id).
-                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + id + " не найден"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + id + " не найден"));
         return UserMapper.toUserDto(user);
     }
 
@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
                 throw new EmailAlreadyExistsException("Пользователь с такой почтой уже есть в базе данных");
             }
         }
-        User updatedUser = userRepository.findById(userId).
-                orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
+        User updatedUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь с id " + userId + " не найден"));
         if (user.getName() != null) {
             updatedUser.setName(user.getName());
         }

@@ -10,14 +10,14 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByBookerIdOrderByStartDesc(Integer bookerId);
 
-    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc
-            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
+            Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
 
-    List<Booking> findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc
-            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+    List<Booking> findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc(
+            Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
 
-    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc
-            (Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
+    List<Booking> findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc(
+            Integer bookerId, LocalDateTime dateOne, LocalDateTime dateTwo);
 
     List<Booking> findByBookerIdAndStatusContainsOrderByStartDesc(Integer bookerId, String status);
 
@@ -64,6 +64,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query(value = "select * from bookings " +
             "where item_id = ?1 and end_date_time < now() and booker_id = ?2 and status = 'APPROVED'", nativeQuery = true)
-    List<Booking>findBookingByItemIdAndByBookerId(Integer itemId, Integer bookerId);
+    List<Booking> findBookingByItemIdAndByBookerId(Integer itemId, Integer bookerId);
 
 }
