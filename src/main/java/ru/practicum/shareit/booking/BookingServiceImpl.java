@@ -89,8 +89,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public ReturnedBookingDto getById(Integer userId, Integer bookingId) {
-        Booking booking = bookingRepository.findById(bookingId).
-                orElseThrow(() -> new BookingNotFoundException("Бронирование с id " + bookingId + " не найдено"));
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new BookingNotFoundException("Бронирование с id " + bookingId + " не найдено"));
         Item item = itemRepository.findById(booking.getItem().getId())
                 .orElseThrow(() -> new ItemNotFoundException("Вещь с id " + booking.getItem().getId() + " не найдена"));
         if (!(userId.equals(item.getOwnerId())) && !(userId.equals(booking.getBooker().getId()))) {
@@ -108,28 +108,28 @@ public class BookingServiceImpl implements BookingService {
         }
         if (state.equals("CURRENT")) {
             return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc
-                            (userId, LocalDateTime.now(), LocalDateTime.now()));
+                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
+                            userId, LocalDateTime.now(), LocalDateTime.now()));
         }
         if (state.equals("PAST")) {
             return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc
-                            (userId, LocalDateTime.now(), LocalDateTime.now()));
+                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc(
+                            userId, LocalDateTime.now(), LocalDateTime.now()));
         }
         if (state.equals("FUTURE")) {
             return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc
-                            (userId, LocalDateTime.now(), LocalDateTime.now()));
+                    bookingRepository.findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc(
+                            userId, LocalDateTime.now(), LocalDateTime.now()));
         }
         if (state.equals("WAITING")) {
             return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc
-                            (userId, Status.WAITING.toString()));
+                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
+                            userId, Status.WAITING.toString()));
         }
         if (state.equals("REJECTED")) {
             return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc
-                            (userId, Status.REJECTED.toString()));
+                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
+                            userId, Status.REJECTED.toString()));
         }
         return new ArrayList<>();
     }
