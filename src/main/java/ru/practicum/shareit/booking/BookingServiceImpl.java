@@ -102,31 +102,31 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<ReturnedBookingDto> getAllBookingsByOwnerId(Integer userId, String state) {
-        if (state.equals("ALL")) {
+        if (state.equals(State.ALL.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdOrderByStartDesc(userId));
         }
-        if (state.equals("CURRENT")) {
+        if (state.equals(State.CURRENT.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
                             userId, LocalDateTime.now(), LocalDateTime.now()));
         }
-        if (state.equals("PAST")) {
+        if (state.equals(State.PAST.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc(
                             userId, LocalDateTime.now(), LocalDateTime.now()));
         }
-        if (state.equals("FUTURE")) {
+        if (state.equals(State.FUTURE.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc(
                             userId, LocalDateTime.now(), LocalDateTime.now()));
         }
-        if (state.equals("WAITING")) {
+        if (state.equals(State.WAITING.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
                             userId, Status.WAITING.toString()));
         }
-        if (state.equals("REJECTED")) {
+        if (state.equals(State.REJECTED.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
                             userId, Status.REJECTED.toString()));
@@ -136,27 +136,26 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<ReturnedBookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state) {
-        // TODO запрос имеет смысл для владельца хотя бы одной вещи
-        if (state.equals("ALL")) {
+        if (state.equals(State.ALL.toString())) {
            return BookingMapper.toBookingDtoList(bookingRepository.findAllUsersBookings(userId));
         }
-        if (state.equals("CURRENT")) {
+        if (state.equals(State.CURRENT.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findAllCurrentUsersBookings(userId, LocalDateTime.now()));
         }
-        if (state.equals("PAST")) {
+        if (state.equals(State.PAST.toString())) {
             return BookingMapper.toBookingDtoList(bookingRepository.findAllPastUsersBookings(
                     userId, LocalDateTime.now(), LocalDateTime.now()));
         }
-        if (state.equals("FUTURE")) {
+        if (state.equals(State.FUTURE.toString())) {
             return BookingMapper.toBookingDtoList(bookingRepository.finnAllFutureUsersBookings(
                     userId, LocalDateTime.now(), LocalDateTime.now()));
         }
-        if (state.equals("WAITING")) {
+        if (state.equals(State.WAITING.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findAllUsersBookingsWithStatus(userId, Status.WAITING.toString()));
         }
-        if (state.equals("REJECTED")) {
+        if (state.equals(State.REJECTED.toString())) {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findAllUsersBookingsWithStatus(userId, Status.REJECTED.toString()));
         }
