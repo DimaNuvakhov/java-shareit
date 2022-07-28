@@ -16,27 +16,22 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public ItemRequestDto add(ItemRequestDto itemRequest) {
-        return requestRepository.add(RequestMapper.toItemRequest(itemRequest));
+    public ItemRequestDto add(Integer userId, ItemRequestDto itemRequest) {
+        return null;
     }
 
     @Override
-    public ItemRequestDto update(ItemRequestDto itemRequest) {
-        return requestRepository.update(RequestMapper.toItemRequest(itemRequest));
+    public ItemRequestDto getById(Integer userId, Integer requestId) {
+        return null;
     }
 
     @Override
-    public ItemRequestDto getById(Integer id) {
-        return requestRepository.getById(id);
+    public Collection<ItemRequestDto> getAllUsersRequests(Integer userId) {
+        return null;
     }
 
     @Override
-    public Collection<ItemRequestDto> getAll() {
-        return requestRepository.getAll().values();
-    }
-
-    @Override
-    public Boolean deleteById(Integer id) {
-        return requestRepository.deleteById(id);
+    public Collection<ItemRequestDto> getAllRequests(Integer userId, Integer from, Integer size) {
+        return null;
     }
 }
