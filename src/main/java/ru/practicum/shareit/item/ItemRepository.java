@@ -9,7 +9,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     Boolean existsItemById(Integer id);
 
-    List<Item> getAllByOwnerId(Integer id);
+    List<Item> getAllByOwnerIdOrderById(Integer id);
 
     @Query(" select i from Item i " +
             "where upper(i.name) like upper(concat('%', ?1, '%')) " +

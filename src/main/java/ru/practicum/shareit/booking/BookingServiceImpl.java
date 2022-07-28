@@ -131,7 +131,7 @@ public class BookingServiceImpl implements BookingService {
                     bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
                             userId, Status.REJECTED.toString()));
         }
-        return new ArrayList<>();
+        throw new InvalidStateException("Unknown state: " + state);
     }
 
     @Override
@@ -159,6 +159,6 @@ public class BookingServiceImpl implements BookingService {
             return BookingMapper.toBookingDtoList(
                     bookingRepository.findAllUsersBookingsWithStatus(userId, Status.REJECTED.toString()));
         }
-        return new ArrayList<>();
+        throw new InvalidStateException("Unknown state: " + state);
     }
 }

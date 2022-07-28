@@ -92,7 +92,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleBookingNotFoundException(final BookingNotFoundException e) {
         return new ErrorResponse(
-            e.getMessage()
+                e.getMessage()
         );
     }
 
@@ -123,6 +123,14 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleInvalidStateException(final InvalidStateException e) {
         return new ErrorResponse(
                 e.getMessage()
         );
