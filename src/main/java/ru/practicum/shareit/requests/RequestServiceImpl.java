@@ -3,6 +3,7 @@ package ru.practicum.shareit.requests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.item.Item;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -55,6 +57,9 @@ public class RequestServiceImpl implements RequestService {
         List<Item> items = itemRepository.findAllByRequestId(requestId);
         ItemRequest itemRequest = requestRepository.findById(requestId)
                 .orElseThrow(() -> new ItemRequestNotFoundException("Запрос с id " + requestId + " не найден"));
+        if (!itemRequest.getRequester().getId().equals(userId)) {
+            throw new InvalidAccessException("Информацию о запросе может просматривать только создавший его пользователь");
+        }
         ItemRequestDto itemRequestDto = RequestMapper.toItemRequestDto(itemRequest);
         itemRequestDto.setItems(ItemMapper.toItemDtoList(items));
         return itemRequestDto;
@@ -65,7 +70,7 @@ public class RequestServiceImpl implements RequestService {
         if (!userRepository.existsUserById(userId)) {
             return new ArrayList<>();
         }
-        List<ItemRequestDto> itemRequestDtoList =  RequestMapper.toItemRequestList(requestRepository.getAllByRequesterIdOrderByCreated(userId));
+        List<ItemRequestDto> itemRequestDtoList = RequestMapper.toItemRequestDtoList(requestRepository.getAllByRequesterIdOrderByCreated(userId));
         for (ItemRequestDto itemRequest : itemRequestDtoList) {
             List<Item> items = itemRepository.findAllByRequestId(itemRequest.getId());
             itemRequest.setItems(ItemMapper.toItemDtoList(items));
@@ -80,14 +85,20 @@ public class RequestServiceImpl implements RequestService {
         }
         if (size == 0 || size < 0) {
             throw new InvalidItemRequestParamException(
-                    "Размер страницы не может быть равен 0 и не может быть отрицательынм");
+                    "Размер страницы не может быть равен 0 и не может быть отрицательным");
         }
         if (from < 0) {
-            throw new InvalidItemRequestParamException("Параментр начала страницы не может быть отрицательным");
-            // TODO доделать
+            throw new InvalidItemRequestParamException("Параметр from не может быть отрицательным");
         }
-        PageRequest pageRequest = PageRequest.of(from, size);
-        Page<ItemRequest> itemRequests = requestRepository.getAllByRequesterId(userId, pageRequest);
-        return RequestMapper.toItemRequestList(itemRequests.toList());
+        PageRequest pageRequest = PageRequest.of(from, size, Sort.by("created"));
+        Page<ItemRequest> itemRequests = requestRepository.findByIdIsNot(userId, pageRequest);
+        List<ItemRequestDto> itemRequestDtoList = itemRequests.stream()
+                .map(i -> RequestMapper.toItemRequestDto(i))
+                .collect(Collectors.toList());
+        for (ItemRequestDto itemRequestDto : itemRequestDtoList) {
+            List<Item> items = itemRepository.findAllByRequestId(itemRequestDto.getId());
+            itemRequestDto.setItems(ItemMapper.toItemDtoList(items));
+        }
+        return itemRequestDtoList;
     }
 }

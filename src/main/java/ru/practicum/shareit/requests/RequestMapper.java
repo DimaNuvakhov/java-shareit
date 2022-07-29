@@ -1,7 +1,9 @@
 package ru.practicum.shareit.requests;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class RequestMapper {
@@ -11,7 +13,7 @@ public class RequestMapper {
                 itemRequest.getCreated(), null);
     }
 
-    public static List<ItemRequestDto> toItemRequestList(List<ItemRequest> itemRequests) {
+    public static List<ItemRequestDto> toItemRequestDtoList(List<ItemRequest> itemRequests) {
         List<ItemRequestDto> itemRequestDtoList = new ArrayList<>();
         for (ItemRequest itemRequest : itemRequests) {
             itemRequestDtoList.add(toItemRequestDto(itemRequest));
