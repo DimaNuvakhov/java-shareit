@@ -78,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
         if (!userRepository.existsUserById(userId)) {
             throw new InvalidUserException("Пользователь не добавлен в систему");
         }
-        List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerIdOrderById(userId));
+        List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerIdOrderById(userId)); // TODO Здесь переделать сортировку
         for (ItemDto itemDto : itemDtos) {
             if ((bookingRepository.findLastBooking(itemDto.getId(), userId)) != null
                     && (bookingRepository.findNextBooking(itemDto.getId(), userId) != null)) {

@@ -11,7 +11,7 @@ public class RequestMapper {
                 itemRequest.getCreated(), null);
     }
 
-    public static List<ItemRequestDto> toItemRequestMap(List<ItemRequest> itemRequests) {
+    public static List<ItemRequestDto> toItemRequestList(List<ItemRequest> itemRequests) {
         List<ItemRequestDto> itemRequestDtoList = new ArrayList<>();
         for (ItemRequest itemRequest : itemRequests) {
             itemRequestDtoList.add(toItemRequestDto(itemRequest));
