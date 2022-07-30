@@ -1,6 +1,8 @@
 package ru.practicum.shareit.booking;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.*;
 import ru.practicum.shareit.item.Item;
@@ -9,20 +11,20 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final ItemRepository itemRepository;
-
     private final UserRepository userRepository;
 
 
     @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository, ItemRepository itemRepository, UserRepository userRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository, ItemRepository itemRepository,
+                              UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
@@ -101,63 +103,98 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<ReturnedBookingDto> getAllBookingsByOwnerId(Integer userId, String state) {
+    public List<ReturnedBookingDto> getAllBookingsByOwnerId(Integer userId, String state, Integer from, Integer page) {
+        PageRequest pageRequest = PageRequest.of(from, page);
         if (state.equals(State.ALL.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdOrderByStartDesc(userId));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdOrderByStartDesc(userId, pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.CURRENT.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
-                            userId, LocalDateTime.now(), LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
+                    userId, LocalDateTime.now(), LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.PAST.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc(
-                            userId, LocalDateTime.now(), LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdAndStartIsBeforeAndEndIsBeforeOrderByStartDesc(
+                    userId, LocalDateTime.now(), LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.FUTURE.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc(
-                            userId, LocalDateTime.now(), LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdAndStartIsAfterAndEndIsAfterOrderByStartDesc(
+                    userId, LocalDateTime.now(), LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
+
         }
         if (state.equals(State.WAITING.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
-                            userId, Status.WAITING.toString()));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
+                    userId, Status.WAITING.toString(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.REJECTED.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
-                            userId, Status.REJECTED.toString()));
+            Page<Booking> bookingPage = bookingRepository.findByBookerIdAndStatusContainsOrderByStartDesc(
+                    userId, Status.REJECTED.toString(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         throw new InvalidStateException("Unknown state: " + state);
     }
 
     @Override
-    public List<ReturnedBookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state) {
+    public List<ReturnedBookingDto> getAllBookingsForAllItemsByOwnerId(
+            Integer userId, String state, Integer from, Integer page) {
+        PageRequest pageRequest = PageRequest.of(from, page);
         if (state.equals(State.ALL.toString())) {
-           return BookingMapper.toBookingDtoList(bookingRepository.findAllUsersBookings(userId));
+            Page<Booking> bookingPage = bookingRepository.findAllUsersBookings(userId, pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.CURRENT.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findAllCurrentUsersBookings(userId, LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.findAllCurrentUsersBookings(
+                    userId, LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.PAST.toString())) {
-            return BookingMapper.toBookingDtoList(bookingRepository.findAllPastUsersBookings(
-                    userId, LocalDateTime.now(), LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.findAllPastUsersBookings(
+                    userId, LocalDateTime.now(), LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.FUTURE.toString())) {
-            return BookingMapper.toBookingDtoList(bookingRepository.finnAllFutureUsersBookings(
-                    userId, LocalDateTime.now(), LocalDateTime.now()));
+            Page<Booking> bookingPage = bookingRepository.finnAllFutureUsersBookings(
+                    userId, LocalDateTime.now(), LocalDateTime.now(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.WAITING.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findAllUsersBookingsWithStatus(userId, Status.WAITING.toString()));
+            Page<Booking> bookingPage = bookingRepository.findAllUsersBookingsWithStatus(
+                    userId, Status.WAITING.toString(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
         }
         if (state.equals(State.REJECTED.toString())) {
-            return BookingMapper.toBookingDtoList(
-                    bookingRepository.findAllUsersBookingsWithStatus(userId, Status.REJECTED.toString()));
+            Page<Booking> bookingPage = bookingRepository.findAllUsersBookingsWithStatus(
+                    userId, Status.REJECTED.toString(), pageRequest);
+            return bookingPage.stream()
+                    .map(BookingMapper::toReturnedBookingDto)
+                    .collect(Collectors.toList());
+
         }
         throw new InvalidStateException("Unknown state: " + state);
     }

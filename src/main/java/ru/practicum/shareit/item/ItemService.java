@@ -11,11 +11,11 @@ public interface ItemService {
 
     ItemDto getById(Integer userId, Integer itemId);
 
-    List<ItemDto> getAll(Integer userId);
+    List<ItemDto> getAll(Integer userId, Integer from, Integer page);
 
     ItemDto patch(Integer userId, Integer id, ItemDto item);
 
-    List<ItemDto> search(String query);
+    List<ItemDto> search(String query, Integer from, Integer size);
 
     CommentDto addComment(Integer userId, Integer itemId, CommentDto comment);
 

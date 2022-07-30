@@ -1,6 +1,9 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
@@ -11,6 +14,7 @@ import ru.practicum.shareit.user.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -74,11 +78,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAll(Integer userId) {
+    public List<ItemDto> getAll(Integer userId, Integer from, Integer size) {
         if (!userRepository.existsUserById(userId)) {
             throw new InvalidUserException("Пользователь не добавлен в систему");
         }
-        List<ItemDto> itemDtos = ItemMapper.toItemDtoList(itemRepository.getAllByOwnerIdOrderById(userId)); // TODO Здесь переделать сортировку
+        PageRequest pageRequest = PageRequest.of(from, size);
+        Page<Item> itemPage = itemRepository.getAllByOwnerIdOrderById(userId, pageRequest);
+        List<ItemDto> itemDtos = itemPage.stream()
+                .map(i -> ItemMapper.toItemDto(i))
+                .collect(Collectors.toList());
         for (ItemDto itemDto : itemDtos) {
             if ((bookingRepository.findLastBooking(itemDto.getId(), userId)) != null
                     && (bookingRepository.findNextBooking(itemDto.getId(), userId) != null)) {
@@ -113,12 +121,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> search(String query) {
+    public List<ItemDto> search(String query, Integer from, Integer size) {
         List<Item> items = new ArrayList<>();
         if (query.isBlank()) {
             return new ArrayList<>();
         }
-        List<Item> foundedItems = itemRepository.search(query);
+        PageRequest pageRequest = PageRequest.of(from, size);
+        Page<Item> itemPage = itemRepository.search(query, pageRequest);
+        List<Item> foundedItems = itemPage.stream()
+                .collect(Collectors.toList());
         for (Item item : foundedItems) {
             if (item.getAvailable()) {
                 items.add(item);

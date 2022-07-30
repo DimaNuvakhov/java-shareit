@@ -10,8 +10,8 @@ public interface BookingService {
 
     ReturnedBookingDto getById(Integer userId, Integer bookingId);
 
-    List<ReturnedBookingDto> getAllBookingsByOwnerId(Integer userId, String state);
+    List<ReturnedBookingDto> getAllBookingsByOwnerId(Integer userId, String state, Integer from, Integer page);
 
-    List<ReturnedBookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state);
+    List<ReturnedBookingDto> getAllBookingsForAllItemsByOwnerId(Integer userId, String state, Integer from, Integer page);
 
 }
