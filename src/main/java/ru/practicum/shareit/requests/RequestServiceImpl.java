@@ -57,9 +57,6 @@ public class RequestServiceImpl implements RequestService {
         List<Item> items = itemRepository.findAllByRequestId(requestId);
         ItemRequest itemRequest = requestRepository.findById(requestId)
                 .orElseThrow(() -> new ItemRequestNotFoundException("Запрос с id " + requestId + " не найден"));
-        if (!itemRequest.getRequester().getId().equals(userId)) {
-            throw new InvalidAccessException("Информацию о запросе может просматривать только создавший его пользователь");
-        }
         ItemRequestDto itemRequestDto = RequestMapper.toItemRequestDto(itemRequest);
         itemRequestDto.setItems(ItemMapper.toItemDtoList(items));
         return itemRequestDto;
@@ -68,7 +65,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Collection<ItemRequestDto> getAllUsersRequests(Integer userId) {
         if (!userRepository.existsUserById(userId)) {
-            return new ArrayList<>();
+            throw new InvalidItemRequestParamException("Параметры затроса не могут отсутствовать");
         }
         List<ItemRequestDto> itemRequestDtoList = RequestMapper.toItemRequestDtoList(requestRepository.getAllByRequesterIdOrderByCreated(userId));
         for (ItemRequestDto itemRequest : itemRequestDtoList) {

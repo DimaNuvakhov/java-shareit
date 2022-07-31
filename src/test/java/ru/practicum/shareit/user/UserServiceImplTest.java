@@ -17,22 +17,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class UserServiceImplTest {
 
     UserService userService;
-
     UserRepository userRepository = Mockito.mock(UserRepository.class);
-
     User user = new User(1, "user", "user@mail.ru");
-
     UserDto userDto = new UserDto(1, "user", "user@mail.ru");
-
     List<User> users = List.of(new User(1, "user", "firstuser@mail.ru"),
             new User(2, "secondUser", "secondUser@mail.ru"),
             new User(3, "thirdUser", "thirdUser@mail.ru"));
-
     @BeforeEach
     void BeforeEach() {
         userService = new UserServiceImpl(userRepository);
     }
-
     @Test
     void add() {
         Mockito

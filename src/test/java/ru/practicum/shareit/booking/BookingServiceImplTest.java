@@ -36,7 +36,7 @@ class BookingServiceImplTest {
     User secondUser = new User(2, "second User", "secondUser@mail.ru");
     ReturnedBookingDto returnedBookingDto = new ReturnedBookingDto(
             1, date, date.plusDays(1), itemDto, userDto, Status.WAITING.toString());
-    Item item = new Item(1, "Отвертка", "Хорошая отвертка", true, 1, null);
+    Item item = new Item(1, "Отвертка", "Хорошая отвертка", true, 1, 2);
     Booking booking = new Booking(1, date, date.plusDays(1), item, user, Status.WAITING.toString());
 
     @BeforeEach

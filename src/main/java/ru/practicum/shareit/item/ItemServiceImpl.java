@@ -99,9 +99,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto patch(Integer userId, Integer id, ItemDto item) {
+    public ItemDto patch(Integer userId, Integer itemId, ItemDto item) {
         Item foundedItem = itemRepository
-                .findById(id).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + id + " не найдена"));
+                .findById(itemId).orElseThrow(() -> new ItemNotFoundException("Вещь с id " + itemId + " не найдена"));
         if (userId == null) {
             throw new InvalidIdException("Ошибка id пользователя");
         }
